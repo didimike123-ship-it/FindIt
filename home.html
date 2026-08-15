@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FindIt — Home</title>
+<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app">
 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">Find<span>It</span></div>
+      <div class="logo-sub">Lost &amp; Found System</div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item active" href="home.html"><span class="nav-icon">🏠</span> Home</a>
+      <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
+      <a class="nav-item" href="account.html"><span class="nav-icon">👤</span> My Account</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <span class="topbar-title">Home</span>
+      <div class="topbar-right">
+        <a class="btn btn-primary btn-sm" href="report.html">+ Report Item</a>
+      </div>
+    </div>
+
+    <div class="inner">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="setDashboardFilter('all')">
+          <span class="ft-num" id="s-all">0</span>
+          <span class="ft-lbl">All Post</span>
+        </button>
+        <button class="filter-tab" data-filter="lost" onclick="setDashboardFilter('lost')">
+          <span class="ft-num" id="s-lost">0</span>
+          <span class="ft-lbl">Lost Post</span>
+        </button>
+        <button class="filter-tab" data-filter="found" onclick="setDashboardFilter('found')">
+          <span class="ft-num" id="s-found">0</span>
+          <span class="ft-lbl">Found Post</span>
+        </button>
+        <button class="filter-tab" data-filter="recovered" onclick="setDashboardFilter('recovered')">
+          <span class="ft-num" id="s-recovered">0</span>
+          <span class="ft-lbl">Recovered</span>
+        </button>
+      </div>
+      <div class="section-title">Posts</div>
+      <div class="search-row">
+        <input class="input input-search" type="text" placeholder="Search posts…" id="home-q" oninput="renderDashboardList()"/>
+        <select class="input input-select" id="home-cat" onchange="renderDashboardList()">
+          <option value="">All Categories</option>
+          <option>Phone</option><option>Wallet</option><option>Keys</option>
+          <option>ID Card</option><option>Books</option><option>Others</option>
+        </select>
+      </div>
+      <div class="recent-list" id="recent-list"></div>
+    </div><!-- /inner -->
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a class="mob-btn active" href="home.html"><span class="m-ico">🏠</span>Home</a>
+    <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
+    <a class="mob-btn" href="account.html"><span class="m-ico">👤</span>Account</a>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" style="display:none" onclick="closeOuter(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="m-name"></h3>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img" id="m-img"></div>
+      <div class="detail-table" id="m-details"></div>
+      <div class="contact-box" id="m-contact"></div>
+      <div class="modal-actions" id="m-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="overlay" id="confirm-overlay" style="display:none" onclick="if(event.target.id==='confirm-overlay')closeConfirm()">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-hdr">
+      <h3>Please Confirm</h3>
+      <button class="close-btn" onclick="closeConfirm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-message" style="font-size:.9rem;color:var(--text2);line-height:1.5;margin-bottom:1.25rem"></p>
+      <div class="modal-actions">
+        <button class="btn btn-red" onclick="confirmYes()">Yes, Delete</button>
+        <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+const _session=requireLogin();
+if(_session){initDashboardPage();}
+</script>
+</body>
+</html>
