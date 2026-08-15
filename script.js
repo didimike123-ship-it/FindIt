@@ -36,7 +36,7 @@ function doLogin(){
   const u=getUsers().find(x=>x.contact.toLowerCase()===contact.toLowerCase()&&x.password===pw);
   if(!u){toast('❌ Incorrect phone/email or password');return}
   setSession({name:u.name,contact:u.contact});
-  window.location.href='home.html';
+  window.location.href='index.html';
 }
 
 function doSignup(){
@@ -51,7 +51,7 @@ function doSignup(){
   users.push({name,contact,password:pw});
   saveUsers(users);
   setSession({name,contact});
-  window.location.href='home.html';
+  window.location.href='index.html';
 }
 
 // Toggle a password field between hidden/visible text, flipping the eye icon.
@@ -159,7 +159,7 @@ function submitItem(){
   if(file){const r=new FileReader();r.onload=e=>go(e.target.result);r.readAsDataURL(file)}else go('');
 }
 
-// ── DASHBOARD (home.html) ─────────────────────────────────
+// ── DASHBOARD (index.html) ─────────────────────────────────
 let dashboardFilter='all';
 
 function renderDashboard(){
@@ -256,7 +256,7 @@ function initAccountPage(){
   if(params.get('submitted')==='1') toast('✅ Item reported successfully!');
 }
 
-// ── MODAL (shared by home.html and account.html) ────────────────────────────
+// ── MODAL (shared by index.html and account.html) ────────────────────────────
 function openModal(id){
   const i=items.find(x=>x.id===id);
   if(!i) return;
