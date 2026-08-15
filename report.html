@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FindIt — Report an Item</title>
+<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">Find<span>It</span></div>
+      <div class="logo-sub">Lost &amp; Found System</div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Home</a>
+      <a class="nav-item active" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
+      <a class="nav-item" href="account.html"><span class="nav-icon">👤</span> My Account</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <span class="topbar-title">Report an Item</span>
+      <div class="topbar-right"></div>
+    </div>
+
+    <div class="inner">
+      <div class="form-wrap">
+        <div class="form-card">
+          <div class="form-card-head">
+            <div class="fch-icon">📋</div>
+            <div>
+              <div class="fch-title">Item Details</div>
+              <div class="fch-sub">Fill in as much detail as you can — it helps others recognize and return the right item.</div>
+            </div>
+          </div>
+          <div class="type-tabs">
+            <button class="type-tab active is-lost" id="tab-lost" onclick="setType('lost')">🔴 I Lost Something</button>
+            <button class="type-tab is-found" id="tab-found" onclick="setType('found')">🟢 I Found Something</button>
+          </div>
+          <div class="field">
+            <label>Item Name <span class="req">*</span></label>
+            <input class="input" type="text" id="f-name" placeholder="e.g. Black Samsung Galaxy S24" oninput="this.classList.remove('input-error')"/>
+          </div>
+          <div class="fields-2">
+            <div class="field">
+              <label>Category <span class="req">*</span></label>
+              <select class="input" id="f-cat" onchange="this.classList.remove('input-error')">
+                <option value="">Select category…</option>
+                <option>Phone</option><option>Wallet</option><option>Keys</option>
+                <option>ID Card</option><option>Books</option><option>Others</option>
+              </select>
+            </div>
+            <div class="field">
+              <label id="lbl-date">Date Lost <span class="req">*</span></label>
+              <input class="input" type="date" id="f-date" oninput="this.classList.remove('input-error')"/>
+            </div>
+          </div>
+          <div class="field">
+            <label id="lbl-loc">Location Lost <span class="req">*</span></label>
+            <input class="input" type="text" id="f-loc" placeholder="e.g. Library 2nd Floor, Cafeteria" oninput="this.classList.remove('input-error')"/>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <textarea class="input" id="f-desc" placeholder="Color, brand, distinguishing marks…"></textarea>
+          </div>
+          <div class="field">
+            <label>Contact Info <span class="req">*</span></label>
+            <input class="input" type="text" id="f-contact" placeholder="Phone number or email address" oninput="this.classList.remove('input-error')"/>
+          </div>
+          <div class="field">
+            <label>Photo <span class="opt-lbl">(optional)</span></label>
+            <div class="photo-upload" onclick="document.getElementById('f-photo').click()">
+              <div class="photo-upload-empty" id="photo-upload-empty">
+                <div class="pu-icon">📷</div>
+                <div class="pu-text">Tap to add a photo</div>
+                <div class="pu-hint">JPG or PNG</div>
+              </div>
+              <img id="photo-preview-img" style="display:none" alt="Preview"/>
+            </div>
+            <input type="file" id="f-photo" accept="image/*" style="display:none" onchange="previewPhoto(this)"/>
+          </div>
+          <button class="submit-btn" onclick="submitItem()">📮 Submit Report</button>
+        </div>
+      </div>
+    </div><!-- /inner -->
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a class="mob-btn" href="home.html"><span class="m-ico">🏠</span>Home</a>
+    <a class="mob-btn active" href="report.html"><span class="m-ico">✏️</span>Report</a>
+    <a class="mob-btn" href="account.html"><span class="m-ico">👤</span>Account</a>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+const _session=requireLogin();
+if(_session){
+  initReportPageFromQuery();
+}
+</script>
+</body>
+</html>
