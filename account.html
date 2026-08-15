@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FindIt — My Account</title>
+<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo">Find<span>It</span></div>
+      <div class="logo-sub">Lost &amp; Found System</div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Home</a>
+      <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
+      <a class="nav-item active" href="account.html"><span class="nav-icon">👤</span> My Account</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <div class="topbar">
+      <span class="topbar-title">My Account</span>
+      <div class="topbar-right">
+        <a class="btn btn-primary btn-sm" href="report.html">+ Report Item</a>
+      </div>
+    </div>
+
+    <div class="inner">
+      <div class="page-head">
+        <h2>My Account</h2>
+        <button class="theme-switch" id="theme-switch" onclick="toggleTheme()" title="Toggle dark mode">
+          <span class="ts-knob" id="theme-knob">☀️</span>
+        </button>
+      </div>
+
+      <div class="account-card">
+        <div>
+          <div class="a-name" id="acc-name">—</div>
+          <div class="a-contact" id="acc-contact">—</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="logout()">Log out</button>
+      </div>
+
+      <div class="section-title">My Reports (History)</div>
+      <p style="font-size:.85rem;color:var(--muted);margin:-.75rem 0 1.25rem">Reports you've submitted while logged in — Lost, Found, and Recovered. You can edit, mark recovered, or delete your own posts here.</p>
+      <div class="items-grid" id="grid-history"></div>
+    </div><!-- /inner -->
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <a class="mob-btn" href="home.html"><span class="m-ico">🏠</span>Home</a>
+    <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
+    <a class="mob-btn active" href="account.html"><span class="m-ico">👤</span>Account</a>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" style="display:none" onclick="closeOuter(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="m-name"></h3>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-img" id="m-img"></div>
+      <div class="detail-table" id="m-details"></div>
+      <div class="contact-box" id="m-contact"></div>
+      <div class="modal-actions" id="m-actions"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+const _session=requireLogin();
+if(_session){initAccountPage();}
+</script>
+</body>
+</html>
