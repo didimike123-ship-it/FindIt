@@ -18,7 +18,7 @@
       <div class="logo-sub">Lost &amp; Found System</div>
     </div>
     <nav class="nav">
-      <a class="nav-item" href="home.html"><span class="nav-icon">🏠</span> Home</a>
+      <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Home</a>
       <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
       <a class="nav-item active" href="account.html"><span class="nav-icon">👤</span> My Account</a>
     </nav>
@@ -34,19 +34,17 @@
     </div>
 
     <div class="inner">
-      <div class="page-head">
-        <h2>My Account</h2>
-        <button class="theme-switch" id="theme-switch" onclick="toggleTheme()" title="Toggle dark mode">
-          <span class="ts-knob" id="theme-knob">☀️</span>
-        </button>
-      </div>
-
       <div class="account-card">
         <div>
           <div class="a-name" id="acc-name">—</div>
           <div class="a-contact" id="acc-contact">—</div>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="logout()">Log out</button>
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <button class="theme-switch" id="theme-switch" onclick="toggleTheme()" title="Toggle dark mode">
+            <span class="ts-knob" id="theme-knob">☀️</span>
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="logout()">Log out</button>
+        </div>
       </div>
 
       <div class="section-title">My Reports (History)</div>
@@ -59,7 +57,7 @@
 <!-- MOBILE NAV -->
 <div class="mobile-nav">
   <div class="mobile-nav-inner">
-    <a class="mob-btn" href="home.html"><span class="m-ico">🏠</span>Home</a>
+    <a class="mob-btn" href="index.html"><span class="m-ico">🏠</span>Home</a>
     <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
     <a class="mob-btn active" href="account.html"><span class="m-ico">👤</span>Account</a>
   </div>
@@ -77,6 +75,23 @@
       <div class="detail-table" id="m-details"></div>
       <div class="contact-box" id="m-contact"></div>
       <div class="modal-actions" id="m-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="overlay" id="confirm-overlay" style="display:none" onclick="if(event.target.id==='confirm-overlay')closeConfirm()">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-hdr">
+      <h3>Please Confirm</h3>
+      <button class="close-btn" onclick="closeConfirm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-message" style="font-size:.9rem;color:var(--text2);line-height:1.5;margin-bottom:1.25rem"></p>
+      <div class="modal-actions">
+        <button class="btn btn-red" onclick="confirmYes()">Yes, Delete</button>
+        <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+      </div>
     </div>
   </div>
 </div>
