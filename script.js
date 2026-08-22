@@ -1,36 +1,17 @@
-/* ════════════════════════════════════════════════════════════════════════
-   SHARED DATA & STORAGE
-   Used by: Home (index.html) and My Account (account.html)
-   — the list of all Lost/Found posts, and basic helpers.
-   ════════════════════════════════════════════════════════════════════════ */
+// ── SHARED DATA (persists across all pages via localStorage) ──────────────────
 const ICONS={Phone:'📱',Wallet:'👜',Keys:'🔑','ID Card':'🪪',Books:'📚',Others:'📦','':'📦'};
 let items=JSON.parse(localStorage.getItem('findit2')||'[]');
+let curType='lost';
+
 function save(){localStorage.setItem('findit2',JSON.stringify(items))}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-// Fills in 5 sample posts the very first time the app runs (empty storage).
-function seedIfEmpty(){
-  if(items.length) return;
-  items=[
-    {id:'d1',type:'lost',name:'Black iPhone 14',cat:'Phone',date:'2025-06-01',loc:'Library 2nd Floor',desc:'Black phone, cracked back glass, blue case sticker',contact:'09123456789',photo:'',status:'active',created:new Date().toISOString()},
-    {id:'d2',type:'found',name:'Blue Leather Wallet',cat:'Wallet',date:'2025-06-02',loc:'Cafeteria entrance',desc:'Blue wallet with some cash and cards inside',contact:'09987654321',photo:'',status:'active',created:new Date().toISOString()},
-    {id:'d3',type:'lost',name:'Student ID Card',cat:'ID Card',date:'2025-06-03',loc:'Gym entrance',desc:'2nd year student ID, name visible on front',contact:'student@example.com',photo:'',status:'recovered',created:new Date().toISOString()},
-    {id:'d4',type:'found',name:'Key Bunch (3 keys)',cat:'Keys',date:'2025-06-04',loc:'Parking Lot B',desc:'3 keys on a red keyring, found near lot entrance',contact:'09111222333',photo:'',status:'active',created:new Date().toISOString()},
-    {id:'d5',type:'lost',name:'Calculus Textbook',cat:'Books',date:'2025-06-05',loc:'Room 204, Building A',desc:'Yellow cover, name written inside front cover',contact:'09444555666',photo:'',status:'active',created:new Date().toISOString()},
-  ];
-  save();
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   LOGIN / SIGN UP PAGE  (login.html)
-   Session + account storage, used here to log in/sign up, and also on
-   every other page as a route guard (to check who's currently logged in).
-   ════════════════════════════════════════════════════════════════════════ */
+// ── AUTH (login.html + route guard for other pages) ─────────────────────────
+function getUsers(){return JSON.parse(localStorage.getItem('findit2_users')||'[]')}
+function saveUsers(u){localStorage.setItem('findit2_users',JSON.stringify(u))}
 function getSession(){return JSON.parse(localStorage.getItem('findit2_session')||'null')}
 function setSession(s){localStorage.setItem('findit2_session',JSON.stringify(s))}
 function clearSession(){localStorage.removeItem('findit2_session')}
-function getUsers(){return JSON.parse(localStorage.getItem('findit2_users')||'[]')}
-function saveUsers(u){localStorage.setItem('findit2_users',JSON.stringify(u))}
 
 // Call at the top of any page that requires login. Redirects to login.html
 // and returns null if nobody is logged in; otherwise returns the session.
@@ -41,20 +22,6 @@ function requireLogin(){
 }
 function logout(){clearSession();window.location.href='login.html'}
 
-// Use on pages that need a real account (Report Item, My Account).
-// Guests get redirected to login.html with an explanatory toast.
-function requireFullAccount(){
-  const s=requireLogin();
-  if(!s) return null;
-  if(s.guest){
-    toast('⚠️ Please sign up or log in to continue');
-    window.location.href='login.html';
-    return null;
-  }
-  return s;
-}
-
-// ---- LOGIN / SIGN UP PAGE: form behaviour (tabs, submit, guest button) ----
 function setAuthTab(t){
   document.getElementById('tab-login').className='type-tab'+(t==='login'?' active is-auth':'');
   document.getElementById('tab-signup').className='type-tab'+(t==='signup'?' active is-auth':'');
@@ -87,13 +54,6 @@ function doSignup(){
   window.location.href='index.html';
 }
 
-// Continue without an account — can browse Home, but Report Item and
-// My Account still require a real signed-up account (see requireFullAccount).
-function continueAsGuest(){
-  setSession({name:'Guest',contact:'',guest:true});
-  window.location.href='index.html';
-}
-
 // Toggle a password field between hidden/visible text, flipping the eye icon.
 function togglePw(inputId,btn){
   const el=document.getElementById(inputId);
@@ -101,6 +61,7 @@ function togglePw(inputId,btn){
   el.type=hidden?'text':'password';
   btn.textContent=hidden?'🙈':'👁️';
 }
+
 // Pressing Enter in a field moves focus to the next field instead of submitting.
 function focusNext(e,nextId){
   if(e.key==='Enter'){e.preventDefault();const nxt=document.getElementById(nextId);if(nxt)nxt.focus();}
@@ -110,12 +71,7 @@ function submitOnEnter(e,fn){
   if(e.key==='Enter'){e.preventDefault();fn();}
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   DARK / LIGHT MODE
-   The theme toggle switch itself only appears on My Account (account.html),
-   but the "which theme is active" check runs via a tiny inline <script> in
-   the <head> of every page, before this file even loads (avoids flashing).
-   ════════════════════════════════════════════════════════════════════════ */
+// ── THEME (light/dark) ───────────────────────────────────────────────────────
 function getTheme(){return localStorage.getItem('findit2_theme')||'light'}
 function applyStoredTheme(){document.documentElement.classList.toggle('dark',getTheme()==='dark')}
 function setTheme(t){
@@ -124,18 +80,25 @@ function setTheme(t){
   updateThemeToggleUI();
 }
 function toggleTheme(){setTheme(getTheme()==='dark'?'light':'dark')}
-// Updates the sun/moon icon on the switch — only exists on My Account page.
 function updateThemeToggleUI(){
   const knob=document.getElementById('theme-knob');
   if(knob) knob.textContent=getTheme()==='dark'?'🌙':'☀️';
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   REPORT ITEM PAGE  (report.html)
-   The Lost/Found submission form: tab switching, photo preview, submit.
-   ════════════════════════════════════════════════════════════════════════ */
-let curType='lost';
+// ── SEED DATA (only runs once, shared by whichever page loads first) ──────────
+function seedIfEmpty(){
+  if(items.length) return;
+  items=[
+    {id:'d1',type:'lost',name:'Black iPhone 14',cat:'Phone',date:'2025-06-01',loc:'Library 2nd Floor',desc:'Black phone, cracked back glass, blue case sticker',contact:'09123456789',photo:'',status:'active',created:new Date().toISOString()},
+    {id:'d2',type:'found',name:'Blue Leather Wallet',cat:'Wallet',date:'2025-06-02',loc:'Cafeteria entrance',desc:'Blue wallet with some cash and cards inside',contact:'09987654321',photo:'',status:'active',created:new Date().toISOString()},
+    {id:'d3',type:'lost',name:'Student ID Card',cat:'ID Card',date:'2025-06-03',loc:'Gym entrance',desc:'2nd year student ID, name visible on front',contact:'student@example.com',photo:'',status:'recovered',created:new Date().toISOString()},
+    {id:'d4',type:'found',name:'Key Bunch (3 keys)',cat:'Keys',date:'2025-06-04',loc:'Parking Lot B',desc:'3 keys on a red keyring, found near lot entrance',contact:'09111222333',photo:'',status:'active',created:new Date().toISOString()},
+    {id:'d5',type:'lost',name:'Calculus Textbook',cat:'Books',date:'2025-06-05',loc:'Room 204, Building A',desc:'Yellow cover, name written inside front cover',contact:'09444555666',photo:'',status:'active',created:new Date().toISOString()},
+  ];
+  save();
+}
 
+// ── REPORT FORM (report.html) ───────────────────────────────────────────────
 function setType(t){
   curType=t;
   document.getElementById('tab-lost').className='type-tab'+(t==='lost'?' active is-lost':'');
@@ -145,8 +108,8 @@ function setType(t){
   document.getElementById('f-loc').placeholder=t==='lost'?'e.g. Library 2nd Floor':'e.g. Cafeteria entrance';
 }
 
-// Reads ?type=lost or ?type=found from the URL so links from other pages
-// land on the correct tab.
+// Reads ?type=lost or ?type=found from the URL so "+ Report Lost" / "+ Report Found"
+// buttons on other pages land on the correct tab.
 function initReportPageFromQuery(){
   const params=new URLSearchParams(window.location.search);
   const t=params.get('type');
@@ -190,16 +153,13 @@ function submitItem(){
     const session=getSession();
     items.unshift({id:newId,type:curType,name,cat,date,loc,desc,contact,photo:photo||'',status:'active',created:new Date().toISOString(),reporterKey:session?session.contact:''});
     save();
-    // Redirect to My Account so the user sees their new report confirmed.
+    // Redirect to History so the user sees their new report confirmed.
     window.location.href='account.html?submitted=1';
   };
   if(file){const r=new FileReader();r.onload=e=>go(e.target.result);r.readAsDataURL(file)}else go('');
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   HOME PAGE  (index.html)
-   Filter tabs (All/Lost/Found/Recovered), search box, and the post feed.
-   ════════════════════════════════════════════════════════════════════════ */
+// ── DASHBOARD (index.html) ─────────────────────────────────
 let dashboardFilter='all';
 
 function renderDashboard(){
@@ -258,12 +218,7 @@ function initDashboardPage(){
   renderDashboard();
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   MY ACCOUNT PAGE  (account.html)
-   Account info card + "My Reports" history list.
-   (Dark/Light mode toggle lives here too — see the DARK / LIGHT MODE
-   section above for the actual theme functions.)
-   ════════════════════════════════════════════════════════════════════════ */
+// ── HISTORY LIST (used inside account.html "My Reports" section) ────────────
 function renderHistory(){
   const session=getSession();
   const list=session?items.filter(i=>i.reporterKey===session.contact):[];
@@ -288,7 +243,6 @@ function renderHistory(){
     </div>`;
   }).join('');
 }
-
 function initAccountPage(){
   seedIfEmpty();
   const session=getSession();
@@ -302,11 +256,7 @@ function initAccountPage(){
   if(params.get('submitted')==='1') toast('✅ Item reported successfully!');
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   POST MODAL — view / edit / recover / delete
-   Shared by: Home (index.html) and My Account (account.html) — both
-   pages have the same modal markup and open it the same way.
-   ════════════════════════════════════════════════════════════════════════ */
+// ── MODAL (shared by index.html and account.html) ────────────────────────────
 function openModal(id){
   const i=items.find(x=>x.id===id);
   if(!i) return;
@@ -333,7 +283,7 @@ function renderModalView(i){
     <div class="val">📞 ${esc(i.contact)}</div>
   `;
   const session=getSession();
-  const isOwner=!!(session&&!session.guest&&session.contact&&i.reporterKey===session.contact);
+  const isOwner=!!(session&&i.reporterKey===session.contact);
   const acts=document.getElementById('m-actions');
   acts.innerHTML='';
   if(isOwner){
@@ -394,7 +344,8 @@ function renderModalEdit(i){
   cancelBtn.onclick=()=>openModal(i.id);acts.appendChild(cancelBtn);
 }
 
-// Live-preview a newly selected photo while editing a post.
+// Live-preview a newly selected photo while editing a post, and stash the
+// base64 data on window._editPhoto so saveEdit() can pick it up.
 function previewEditPhoto(input){
   const file=input.files[0];
   if(!file) return;
@@ -425,14 +376,10 @@ function saveEdit(id){
   openModal(id);
   refreshCurrentPage();
 }
-
 function closeModal(){document.getElementById('overlay').style.display='none'}
 function closeOuter(e){if(e.target.id==='overlay')closeModal()}
 
-/* ════════════════════════════════════════════════════════════════════════
-   CUSTOM CONFIRM DIALOG — styled replacement for the browser's confirm()
-   Shared by: Home (index.html) and My Account (account.html).
-   ════════════════════════════════════════════════════════════════════════ */
+// ── CUSTOM CONFIRM DIALOG (styled replacement for browser confirm()) ────────
 function showConfirm(message,onYes){
   document.getElementById('confirm-message').textContent=message;
   window._confirmCallback=onYes;
@@ -467,10 +414,7 @@ function delItem(id){
   });
 }
 
-/* ════════════════════════════════════════════════════════════════════════
-   TOAST — small popup notification
-   Shared by: every page (login, Home, Report Item, My Account).
-   ════════════════════════════════════════════════════════════════════════ */
+// ── TOAST (shared) ───────────────────────────────────────────────────────────
 function toast(msg){
   const t=document.createElement('div');t.className='toast';t.textContent=msg;
   document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
