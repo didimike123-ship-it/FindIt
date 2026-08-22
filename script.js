@@ -1,4 +1,3 @@
-script.js
 
 // ── SHARED DATA (persists across all pages via localStorage) ──────────────────
 const ICONS={Phone:'📱',Wallet:'👜',Keys:'🔑','ID Card':'🪪',Books:'📚',Others:'📦','':'📦'};
