@@ -18,7 +18,7 @@
       <div class="logo-sub">Lost &amp; Found System</div>
     </div>
     <nav class="nav">
-      <a class="nav-item active" href="index.html"><span class="nav-icon">🏠</span> Home</a>
+      <a class="nav-item active" href="home.html"><span class="nav-icon">🏠</span> Home</a>
       <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
       <a class="nav-item" href="account.html"><span class="nav-icon">👤</span> My Account</a>
     </nav>
@@ -34,9 +34,6 @@
     </div>
 
     <div class="inner">
-      <div id="guest-banner" style="display:none;background:var(--blue-soft);border:1px solid var(--blue-mid);border-radius:var(--radius-sm);padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;color:var(--text2)">
-        👋 You're browsing as a guest. <a href="login.html" style="color:var(--blue);font-weight:600">Sign up or log in</a> to report items and save your history.
-      </div>
       <div class="filter-tabs">
         <button class="filter-tab active" data-filter="all" onclick="setDashboardFilter('all')">
           <span class="ft-num" id="s-all">0</span>
@@ -72,7 +69,7 @@
 <!-- MOBILE NAV -->
 <div class="mobile-nav">
   <div class="mobile-nav-inner">
-    <a class="mob-btn active" href="index.html"><span class="m-ico">🏠</span>Home</a>
+    <a class="mob-btn active" href="home.html"><span class="m-ico">🏠</span>Home</a>
     <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
     <a class="mob-btn" href="account.html"><span class="m-ico">👤</span>Account</a>
   </div>
@@ -114,10 +111,7 @@
 <script src="script.js"></script>
 <script>
 const _session=requireLogin();
-if(_session){
-  if(_session.guest) document.getElementById('guest-banner').style.display='block';
-  initDashboardPage();
-}
+if(_session){initDashboardPage();}
 </script>
 </body>
 </html>
