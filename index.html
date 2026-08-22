@@ -3,115 +3,68 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FindIt — Home</title>
+<title>FindIt — Log In</title>
 <script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
-<div class="app">
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-top">
-      <div class="logo">Find<span>It</span></div>
-      <div class="logo-sub">Lost &amp; Found System</div>
-    </div>
-    <nav class="nav">
-      <a class="nav-item active" href="index.html"><span class="nav-icon">🏠</span> Home</a>
-      <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
-      <a class="nav-item" href="account.html"><span class="nav-icon">👤</span> My Account</a>
-    </nav>
-  </aside>
+  <div class="form-card" style="max-width:400px;width:100%">
+    <div class="logo" style="text-align:center;font-size:1.5rem;margin-bottom:.15rem">Find<span>It</span></div>
+    <div class="logo-sub" style="text-align:center;margin-bottom:1.5rem">Lost &amp; Found System</div>
 
-  <!-- MAIN CONTENT -->
-  <div class="content">
-    <div class="topbar">
-      <span class="topbar-title">Home</span>
-      <div class="topbar-right">
-        <a class="btn btn-primary btn-sm" href="report.html">+ Report Item</a>
-      </div>
+    <div class="type-tabs">
+      <button class="type-tab active is-auth" id="tab-login" onclick="setAuthTab('login')">Log In</button>
+      <button class="type-tab is-auth" id="tab-signup" onclick="setAuthTab('signup')">Sign Up</button>
     </div>
 
-    <div class="inner">
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all" onclick="setDashboardFilter('all')">
-          <span class="ft-num" id="s-all">0</span>
-          <span class="ft-lbl">All Post</span>
-        </button>
-        <button class="filter-tab" data-filter="lost" onclick="setDashboardFilter('lost')">
-          <span class="ft-num" id="s-lost">0</span>
-          <span class="ft-lbl">Lost Post</span>
-        </button>
-        <button class="filter-tab" data-filter="found" onclick="setDashboardFilter('found')">
-          <span class="ft-num" id="s-found">0</span>
-          <span class="ft-lbl">Found Post</span>
-        </button>
-        <button class="filter-tab" data-filter="recovered" onclick="setDashboardFilter('recovered')">
-          <span class="ft-num" id="s-recovered">0</span>
-          <span class="ft-lbl">Recovered</span>
-        </button>
+    <div id="login-fields">
+      <div class="field">
+        <label>Phone Number or Email <span class="req">*</span></label>
+        <input class="input" type="text" id="li-contact" placeholder="e.g. 09123456789 or you@example.com" onkeydown="focusNext(event,'li-pw')"/>
       </div>
-      <div class="section-title">Posts</div>
-      <div class="search-row">
-        <input class="input input-search" type="text" placeholder="Search posts…" id="home-q" oninput="renderDashboardList()"/>
-        <select class="input input-select" id="home-cat" onchange="renderDashboardList()">
-          <option value="">All Categories</option>
-          <option>Phone</option><option>Wallet</option><option>Keys</option>
-          <option>ID Card</option><option>Books</option><option>Others</option>
-        </select>
+      <div class="field">
+        <label>Password <span class="req">*</span></label>
+        <div class="pw-wrap">
+          <input class="input" type="password" id="li-pw" placeholder="Enter your password" onkeydown="submitOnEnter(event,doLogin)"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('li-pw',this)">👁️</button>
+        </div>
       </div>
-      <div class="recent-list" id="recent-list"></div>
-    </div><!-- /inner -->
-  </div><!-- /content -->
-</div><!-- /app -->
-
-<!-- MOBILE NAV -->
-<div class="mobile-nav">
-  <div class="mobile-nav-inner">
-    <a class="mob-btn active" href="index.html"><span class="m-ico">🏠</span>Home</a>
-    <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
-    <a class="mob-btn" href="account.html"><span class="m-ico">👤</span>Account</a>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div class="overlay" id="overlay" style="display:none" onclick="closeOuter(event)">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h3 id="m-name"></h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+      <button class="submit-btn" onclick="doLogin()">Log In</button>
     </div>
-    <div class="modal-body">
-      <div class="modal-img" id="m-img"></div>
-      <div class="detail-table" id="m-details"></div>
-      <div class="contact-box" id="m-contact"></div>
-      <div class="modal-actions" id="m-actions"></div>
+
+    <div id="signup-fields" style="display:none">
+      <div class="field">
+        <label>Name <span class="req">*</span></label>
+        <input class="input" type="text" id="su-name" placeholder="Your full name" onkeydown="focusNext(event,'su-contact')"/>
+      </div>
+      <div class="field">
+        <label>Phone Number or Email <span class="req">*</span></label>
+        <input class="input" type="text" id="su-contact" placeholder="e.g. 09123456789 or you@example.com" onkeydown="focusNext(event,'su-pw')"/>
+      </div>
+      <div class="field">
+        <label>Password <span class="req">*</span></label>
+        <div class="pw-wrap">
+          <input class="input" type="password" id="su-pw" placeholder="Choose a password" onkeydown="focusNext(event,'su-pw2')"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('su-pw',this)">👁️</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Confirm Password <span class="req">*</span></label>
+        <div class="pw-wrap">
+          <input class="input" type="password" id="su-pw2" placeholder="Re-enter password" onkeydown="submitOnEnter(event,doSignup)"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('su-pw2',this)">👁️</button>
+        </div>
+      </div>
+      <button class="submit-btn" onclick="doSignup()">Create Account</button>
     </div>
   </div>
-</div>
-
-<!-- CONFIRM DIALOG -->
-<div class="overlay" id="confirm-overlay" style="display:none" onclick="if(event.target.id==='confirm-overlay')closeConfirm()">
-  <div class="modal" style="max-width:360px">
-    <div class="modal-hdr">
-      <h3>Please Confirm</h3>
-      <button class="close-btn" onclick="closeConfirm()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p id="confirm-message" style="font-size:.9rem;color:var(--text2);line-height:1.5;margin-bottom:1.25rem"></p>
-      <div class="modal-actions">
-        <button class="btn btn-red" onclick="confirmYes()">Yes, Delete</button>
-        <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script src="script.js"></script>
 <script>
-const _session=requireLogin();
-if(_session){initDashboardPage();}
+// Already logged in? Skip straight to Home.
+if(getSession()) window.location.href='index.html';
 </script>
 </body>
 </html>
