@@ -22,6 +22,26 @@ function requireLogin(){
 }
 function logout(){clearSession();window.location.href='login.html'}
 
+// Continue without an account — can browse Home, but Report Item and
+// My Account still require a real signed-up account (see requireFullAccount).
+function continueAsGuest(){
+  setSession({name:'Guest',contact:'',guest:true});
+  window.location.href='index.html';
+}
+
+// Use on pages that need a real account (posting, viewing personal history).
+// Guests get redirected to login.html with an explanatory toast.
+function requireFullAccount(){
+  const s=requireLogin();
+  if(!s) return null;
+  if(s.guest){
+    toast('⚠️ Please sign up or log in to continue');
+    window.location.href='login.html';
+    return null;
+  }
+  return s;
+}
+
 function setAuthTab(t){
   document.getElementById('tab-login').className='type-tab'+(t==='login'?' active is-auth':'');
   document.getElementById('tab-signup').className='type-tab'+(t==='signup'?' active is-auth':'');
@@ -283,7 +303,7 @@ function renderModalView(i){
     <div class="val">📞 ${esc(i.contact)}</div>
   `;
   const session=getSession();
-  const isOwner=!!(session&&i.reporterKey===session.contact);
+  const isOwner=!!(session&&!session.guest&&session.contact&&i.reporterKey===session.contact);
   const acts=document.getElementById('m-actions');
   acts.innerHTML='';
   if(isOwner){
