@@ -6,7 +6,7 @@
 <title>FindIt — Log In</title>
 <script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="login.css"/>
 </head>
 <body style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem">
 
@@ -58,6 +58,11 @@
         </div>
       </div>
       <button class="submit-btn" onclick="doSignup()">Create Account</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.25rem;padding-top:1.1rem;border-top:1px solid var(--border)">
+      <button class="btn btn-outline btn-sm" onclick="continueAsGuest()" style="width:100%;justify-content:center">👤 Continue as Guest</button>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:.5rem">You can browse posts as a guest, but reporting items and saving history need an account.</div>
     </div>
   </div>
 
