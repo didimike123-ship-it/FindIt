@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FindIt — My Account</title>
+<title>FindIt — My Account & History</title>
 <script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
@@ -29,11 +29,13 @@
     <div class="topbar">
       <span class="topbar-title">My Account</span>
       <div class="topbar-right">
+        <span class="topbar-user" id="user-name-top"></span>
         <a class="btn btn-primary btn-sm" href="report.html">+ Report Item</a>
       </div>
     </div>
 
     <div class="inner">
+      <!-- Account Info Section -->
       <div class="account-card">
         <div>
           <div class="a-name" id="acc-name">—</div>
@@ -47,8 +49,11 @@
         </div>
       </div>
 
-      <div class="section-title">My Reports (History)</div>
-      <p style="font-size:.85rem;color:var(--muted);margin:-.75rem 0 1.25rem">Reports you've submitted while logged in — Lost, Found, and Recovered. You can edit, mark recovered, or delete your own posts here.</p>
+      <!-- History Section -->
+      <div class="page-head">
+        <h2>My Reports History</h2>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin:-.75rem 0 1.25rem">Reports you've submitted while logged in / from this device — Lost, Found, and Recovered. You can edit, mark recovered, or delete your own posts here.</p>
       <div class="items-grid" id="grid-history"></div>
     </div><!-- /inner -->
   </div><!-- /content -->
@@ -98,8 +103,16 @@
 
 <script src="script.js"></script>
 <script>
-const _session=requireFullAccount();
-if(_session){initAccountPage();}
+const _session=requireLogin();
+if(_session){
+  const userTop = document.getElementById('user-name-top');
+  if(userTop) userTop.textContent = 'Hi, ' + _session.name;
+  
+  initAccountPage();
+  if(typeof initHistoryPage === 'function'){
+    initHistoryPage();
+  }
+}
 </script>
 </body>
 </html>
