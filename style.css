@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - STYLESHEET (UPDATED - FULL FINAL CLEAN)
+   FINDIT - STYLESHEET (MOBILE OPTIMIZED FINAL)
 ========================================= */
 
 :root{
@@ -363,7 +363,7 @@ button{
 
 
 /* =========================================
-   STATS 
+   STATS (Desktop View)
 ========================================= */
 
 .stats{
@@ -651,7 +651,7 @@ button{
 
 
 /* =========================================
-   EMPTY STATE
+   EMPTY STATE 
 ========================================= */
 
 .empty{
@@ -910,7 +910,7 @@ button{
 
 
 /* =========================================
-   DETAIL MODAL & EDIT
+   DETAIL MODAL & EDIT (FIXED SCROLL & OVERLAY)
 ========================================= */
 
 .modal{
@@ -920,8 +920,8 @@ button{
     align-items:center;
     justify-content:center;
     padding:20px;
-    background: rgba(20,27,55,.48);
-    z-index:200;
+    background: rgba(20,27,55,.65);
+    z-index:2000; /* Must be higher than mobile nav (999) */
 }
 
 .modal.show {
@@ -930,15 +930,18 @@ button{
 
 .modal-box{
     width:min(560px,100%);
-    max-height:90vh;
-    overflow:auto;
+    max-height:85vh;
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
     border-radius:18px;
     background:#fff;
     box-shadow: 0 20px 60px rgba(20,30,70,.25);
+    position: relative;
 }
 
 .modal-content {
     position: relative;
+    padding-bottom: 25px; /* Ensures buttons never cut off */
 }
 
 .modal-close {
@@ -949,7 +952,7 @@ button{
     height: 36px;
     border: 0;
     border-radius: 50%;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     color: #111;
     font-size: 22px;
     font-weight: bold;
@@ -958,21 +961,20 @@ button{
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .modal-close:hover {
     background: #fff;
 }
 
-/* Modal Image Fixed: Will not crop portrait images */
 .modal-image{
     width:100%;
-    max-height:400px; /* Allow taller images to show fully */
+    max-height:380px;
     height:auto;
     display:block;
-    object-fit:contain; /* Ensure the whole image is visible */
-    background: #f0f3fa; /* Light background for narrow images */
+    object-fit:contain;
+    background: #f0f3fa; 
 }
 
 .modal-image-placeholder{
@@ -1052,7 +1054,8 @@ button{
 .modal-actions{
     display:flex;
     gap:10px;
-    margin-top:20px;
+    margin-top:24px;
+    padding-bottom: 15px; /* Clean breathing room for buttons */
 }
 
 .modal-actions button{
@@ -1081,7 +1084,7 @@ button{
 
 .edit-box{
     position:relative;
-    padding:28px;
+    padding:28px 28px 40px;
 }
 
 .edit-box h2{
@@ -1151,7 +1154,7 @@ button{
 .edit-photo-preview img{
     width:100%;
     max-height:200px;
-    object-fit:contain; /* Don't crop edit preview either */
+    object-fit:contain;
     border-radius:10px;
     background: #f0f3fa;
 }
@@ -1395,7 +1398,7 @@ button{
     font-size:12px;
     pointer-events:none;
     transition:.25s;
-    z-index:300;
+    z-index:3000;
 }
 
 .toast.show{
@@ -1405,7 +1408,7 @@ button{
 
 
 /* =========================================
-   MOBILE RESPONSIVE
+   MOBILE RESPONSIVE (OPTIMIZED DESIGN)
 ========================================= */
 
 @media(max-width:900px){
@@ -1415,6 +1418,7 @@ button{
 }
 
 @media(max-width:850px){
+    /* Bottom Navigation Bar on Mobile */
     .sidebar{
         position:fixed;
         left:0;
@@ -1423,7 +1427,7 @@ button{
         width:100%;
         margin:0;
         border-radius:20px 20px 0 0;
-        background:rgba(255,255,255,0.95);
+        background:rgba(255,255,255,0.96);
         backdrop-filter: blur(10px);
         box-shadow:0 -5px 25px rgba(50,75,130,0.12);
         padding:8px 10px;
@@ -1471,7 +1475,7 @@ button{
 
     .main{
         margin-left:0;
-        padding:12px 12px 85px 12px; 
+        padding:12px 12px 90px 12px; 
     }
     
     .report-grid{
@@ -1480,14 +1484,100 @@ button{
 }
 
 @media(max-width:650px){
-    /* FIXED MODAL SCROLL OVERLAP ON MOBILE */
-    .modal {
-        padding-bottom: 90px; /* Add bottom padding so content doesn't hide behind mobile nav bar */
+    /* 1. COMPACT HORIZONTAL SCROLL STATS ON MOBILE (နေရာမစားသော ဒီဇိုင်း) */
+    .stats{
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        margin: 16px 0;
+        padding: 4px 2px 10px 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Hide default scrollbar */
     }
-    .modal-image {
-        max-height: 300px; /* Keep image a bit shorter on very small screens */
+    .stats::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .stat-card {
+        flex: 0 0 auto;
+        width: 140px; /* Compact card width */
+        min-height: 80px;
+        padding: 12px;
+        gap: 8px;
+        border-radius: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
     }
 
+    .stat-icon {
+        width: 34px;
+        height: 34px;
+        margin-right: 0;
+    }
+
+    .stat-icon svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .stat-chart {
+        position: absolute;
+        top: 12px;
+        right: 10px;
+    }
+
+    .stat-chart svg {
+        width: 32px;
+        height: 14px;
+    }
+
+    .stat-info strong {
+        font-size: 20px;
+        margin-top: 2px;
+    }
+
+    .stat-info span {
+        font-size: 9.5px;
+        white-space: nowrap;
+    }
+
+    /* 2. MODAL FIX (OVERLAY & PERFECT SCROLL FOR RECOVERED/EDIT/DELETE) */
+    .modal {
+        padding: 15px;
+        z-index: 2500; /* Completely overlays the bottom nav (999) */
+        align-items: flex-end; /* Mobile Bottom Sheet style */
+    }
+
+    .modal-box {
+        width: 100%;
+        max-height: 85vh;
+        border-radius: 20px 20px 14px 14px;
+        padding-bottom: 25px; /* Ensures buttons are fully visible */
+    }
+
+    .modal-image {
+        max-height: 260px;
+        object-fit: contain;
+    }
+
+    .modal-details {
+        padding: 18px 18px 30px; /* Safe space at bottom */
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+        height: 44px;
+    }
+
+    /* 3. TOPBAR & HERO */
     .topbar{
         height:65px;
         padding:0 15px;
@@ -1501,73 +1591,28 @@ button{
         display:none;
     }
     .hero{
-        min-height:130px;
-        padding:20px;
+        min-height:125px;
+        padding:18px;
         border-radius: 14px;
     }
     .hero h2{
-        font-size:22px;
+        font-size:21px;
     }
     .hero p{
         font-size: 12px;
     }
     .hero-art{
-        font-size:50px;
-    }
-    
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
-        margin: 18px 0;
-    }
-    
-    .stat-card {
-        padding: 15px;
-        min-height: 90px;
-        flex-direction: column;
-        align-items: flex-start;
-        position: relative;
-    }
-
-    .stat-icon {
-        margin-right: 0;
-        margin-bottom: 10px;
-        width: 38px;
-        height: 38px;
-    }
-
-    .stat-icon svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .stat-chart {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
-
-    .stat-chart svg {
-        width: 35px;
-        height: 15px;
-    }
-
-    .stat-info strong {
-        font-size: 20px;
-    }
-
-    .stat-info span {
-        font-size: 10px;
+        font-size:46px;
     }
 
     .section-head{
         flex-direction:column;
         align-items:stretch;
         gap:10px;
-        margin-top: 20px;
+        margin-top: 15px;
     }
     
-    /* 1. Search Bar & Categories in ONE ROW on Mobile */
+    /* 4. SEARCH & CATEGORY ONE ROW */
     .filters{
         flex-direction: row; 
         gap: 8px;
@@ -1615,7 +1660,7 @@ button{
         gap:8px;
     }
     
-    /* 2. My Account Stats 3-in-a-row on Mobile */
+    /* 5. MY ACCOUNT STATS IN ONE ROW */
     .account-stats{
         grid-template-columns: repeat(3, 1fr); 
         gap: 8px; 
@@ -1642,9 +1687,6 @@ button{
     }
     .modal-info{
         grid-template-columns:1fr;
-    }
-    .modal-actions{
-        flex-direction:column;
     }
     .report-card-media, .report-card-footer {
         flex-direction:column;
