@@ -2,15 +2,11 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>FindIt — Home</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -18,7 +14,6 @@
 <div class="app">
 
     <!-- ================= SIDEBAR ================= -->
-
     <aside class="sidebar">
 
         <div class="brand">
@@ -45,17 +40,12 @@
             <div class="box-magnify-wrapper">
                 <!-- Box & Magnifying Glass Illustration -->
                 <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Box Back -->
                     <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
                     <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
-                    <!-- Magnifying Glass Handle -->
                     <rect x="60" y="55" width="8" height="25" rx="4" transform="rotate(-30 64 67.5)" fill="#684fec"/>
-                    <!-- Magnifying Glass Ring -->
                     <circle cx="50" cy="40" r="22" fill="none" stroke="#4050f0" stroke-width="8"/>
                     <circle cx="50" cy="40" r="15" fill="#aee8ce" opacity="0.4"/>
-                    <!-- Highlights -->
                     <circle cx="43" cy="33" r="4" fill="white" opacity="0.6"/>
-                    <!-- Box Front Lip -->
                     <path d="M50 45 L80 60 L50 75 L20 60 Z" fill="#ebd2b9" opacity="0.5"/>
                 </svg>
             </div>
@@ -68,44 +58,29 @@
     </aside>
 
     <!-- ================= MAIN ================= -->
-
     <main class="main">
 
         <!-- ================= TOP BAR ================= -->
-
         <header class="topbar">
-
             <h1 class="topbar-title">Home page</h1>
-
-            <!-- PROFILE -->
             <div class="profile-wrap">
                 <button type="button" class="profile-btn" onclick="toggleProfileMenu()">
                     <div class="avatar" id="top-avatar">GU</div>
-
                     <div class="user-info">
                         <small>Welcome,</small>
                         <strong id="top-name">Guest User</strong>
                     </div>
-
                     <span class="user-arrow" id="profile-arrow">⌄</span>
                 </button>
-
-                <!-- PROFILE MENU -->
                 <div class="profile-menu" id="profile-menu">
-                    <button type="button" onclick="addAccount()">
-                        <span>＋</span> Add Account
-                    </button>
+                    <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
                     <div class="profile-divider"></div>
-                    <button type="button" class="logout-menu" onclick="logout()">
-                        <span>↪</span> Sign Out
-                    </button>
+                    <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
                 </div>
             </div>
-
         </header>
 
         <!-- ================= PAGE ================= -->
-
         <section class="page">
 
             <!-- HERO -->
@@ -121,7 +96,7 @@
             <div class="stats">
 
                 <!-- ALL REPORT -->
-                <button type="button" class="stat-card" onclick="setDashboardFilter('all')">
+                <button type="button" id="filter-all" class="stat-card active-filter" onclick="setDashboardFilter('all')">
                     <div class="stat-icon blue">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
                     </div>
@@ -137,7 +112,7 @@
                 </button>
 
                 <!-- LOST REPORT -->
-                <button type="button" class="stat-card" onclick="setDashboardFilter('lost')">
+                <button type="button" id="filter-lost" class="stat-card" onclick="setDashboardFilter('lost')">
                     <div class="stat-icon red">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                     </div>
@@ -153,7 +128,7 @@
                 </button>
 
                 <!-- FOUND REPORT -->
-                <button type="button" class="stat-card" onclick="setDashboardFilter('found')">
+                <button type="button" id="filter-found" class="stat-card" onclick="setDashboardFilter('found')">
                     <div class="stat-icon green">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                     </div>
@@ -169,7 +144,7 @@
                 </button>
 
                 <!-- RECOVERED REPORT -->
-                <button type="button" class="stat-card" onclick="setDashboardFilter('recovered')">
+                <button type="button" id="filter-recovered" class="stat-card" onclick="setDashboardFilter('recovered')">
                     <div class="stat-icon purple">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     </div>
@@ -189,15 +164,11 @@
             <!-- ================= LATEST REPORTS ================= -->
             <div class="section-head">
                 <h2>Latest Reports</h2>
-
                 <div class="filters">
-                    <!-- SEARCH -->
                     <div class="search-box">
                         🔍
                         <input type="text" id="home-q" placeholder="Search reports..." oninput="renderDashboard()">
                     </div>
-
-                    <!-- CATEGORY -->
                     <select id="home-cat" onchange="renderDashboard()">
                         <option value="">All Categories</option>
                         <option value="Phone">Phone</option>
@@ -218,17 +189,13 @@
     </main>
 </div>
 
-<!-- ================================================= -->
-<!-- REPORT DETAIL MODAL -->
-<!-- ================================================= -->
+<!-- ================= REPORT DETAIL MODAL ================= -->
 <div id="item-modal" class="modal" onclick="closeOuter(event)">
     <div id="modal-box" class="modal-box"></div>
 </div>
 
-<!-- ================= TOAST ================= -->
 <div id="toast" class="toast"></div>
 
-<!-- ================= JAVASCRIPT ================= -->
 <script src="script.js"></script>
 
 </body>
