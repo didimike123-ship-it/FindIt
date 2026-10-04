@@ -363,7 +363,7 @@ button{
 
 
 /* =========================================
-   STATS (4 Columns restored with new design)
+   STATS 
 ========================================= */
 
 .stats{
@@ -910,7 +910,7 @@ button{
 
 
 /* =========================================
-   DETAIL MODAL
+   DETAIL MODAL & EDIT
 ========================================= */
 
 .modal{
@@ -965,11 +965,14 @@ button{
     background: #fff;
 }
 
+/* Modal Image Fixed: Will not crop portrait images */
 .modal-image{
     width:100%;
-    height:280px;
+    max-height:400px; /* Allow taller images to show fully */
+    height:auto;
     display:block;
-    object-fit:cover;
+    object-fit:contain; /* Ensure the whole image is visible */
+    background: #f0f3fa; /* Light background for narrow images */
 }
 
 .modal-image-placeholder{
@@ -1148,8 +1151,9 @@ button{
 .edit-photo-preview img{
     width:100%;
     max-height:200px;
-    object-fit:cover;
+    object-fit:contain; /* Don't crop edit preview either */
     border-radius:10px;
+    background: #f0f3fa;
 }
 
 
@@ -1411,7 +1415,6 @@ button{
 }
 
 @media(max-width:850px){
-    /* 1. Transform Sidebar into Mobile Bottom Navigation */
     .sidebar{
         position:fixed;
         left:0;
@@ -1431,7 +1434,7 @@ button{
     }
     
     .brand, .sidebar-art {
-        display:none; /* Hide Logo and Art on Bottom Nav */
+        display:none; 
     }
     
     .sidebar nav{
@@ -1466,10 +1469,9 @@ button{
         color: var(--blue);
     }
 
-    /* 2. Main content adjustment for Bottom Nav */
     .main{
         margin-left:0;
-        padding:12px 12px 85px 12px; /* Bottom padding to clear the nav bar */
+        padding:12px 12px 85px 12px; 
     }
     
     .report-grid{
@@ -1478,6 +1480,14 @@ button{
 }
 
 @media(max-width:650px){
+    /* FIXED MODAL SCROLL OVERLAP ON MOBILE */
+    .modal {
+        padding-bottom: 90px; /* Add bottom padding so content doesn't hide behind mobile nav bar */
+    }
+    .modal-image {
+        max-height: 300px; /* Keep image a bit shorter on very small screens */
+    }
+
     .topbar{
         height:65px;
         padding:0 15px;
@@ -1559,17 +1569,17 @@ button{
     
     /* 1. Search Bar & Categories in ONE ROW on Mobile */
     .filters{
-        flex-direction: row; /* ဘေးတိုက်ထားမည် */
+        flex-direction: row; 
         gap: 8px;
         width: 100%;
     }
     .search-box {
-        flex: 1; /* နေရာလွတ်ကို Search Box ကယူမည် */
+        flex: 1; 
         min-width: 0;
         height: 42px;
     }
     .filters select{
-        width: 125px; /* Category အကွက်ကို Fixed Size ပေးမည် */
+        width: 125px; 
         min-width: 0;
         flex-shrink: 0;
         height: 42px;
@@ -1607,24 +1617,24 @@ button{
     
     /* 2. My Account Stats 3-in-a-row on Mobile */
     .account-stats{
-        grid-template-columns: repeat(3, 1fr); /* ၃ ကွက်တွဲ */
-        gap: 8px; /* ကွက်လပ်ကို နည်းနည်းလျှော့မည် */
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 8px; 
         margin-bottom: 20px;
     }
     .account-stats > div {
-        padding: 10px 5px; /* ဘေးဘောင်ကို သေးပေးမည် */
-        flex-direction: column; /* အစက်၊ စာ၊ ဂဏန်းကို အပေါ်အောက်စီမည် */
+        padding: 10px 5px; 
+        flex-direction: column; 
         justify-content: center;
         text-align: center;
         gap: 5px;
-        font-size: 9px; /* စာလုံးအရွယ်အစား သေးပေးမည် */
+        font-size: 9px; 
     }
     .account-stats > div span {
-        margin: 0; /* အစက်လေးကို အလယ်ရောက်အောင် */
+        margin: 0; 
     }
     .account-stats strong{
         margin-left: 0;
-        font-size: 18px; /* ဂဏန်းကို အလယ်ဗဟိုမှာထားမည် */
+        font-size: 18px; 
     }
 
     .auth-card{
@@ -1635,9 +1645,6 @@ button{
     }
     .modal-actions{
         flex-direction:column;
-    }
-    .modal-image{
-        height:200px;
     }
     .report-card-media, .report-card-footer {
         flex-direction:column;
