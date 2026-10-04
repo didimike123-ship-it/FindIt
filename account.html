@@ -1,105 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>FindIt — My Account</title>
-<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-top">
-      <div class="logo">Find<span>It</span></div>
-      <div class="logo-sub">Lost &amp; Found System</div>
-    </div>
-    <nav class="nav">
-      <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Home</a>
-      <a class="nav-item" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
-      <a class="nav-item active" href="account.html"><span class="nav-icon">👤</span> My Account</a>
-    </nav>
-  </aside>
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
 
-  <!-- MAIN CONTENT -->
-  <div class="content">
-    <div class="topbar">
-      <span class="topbar-title">My Account</span>
-      <div class="topbar-right">
-        <a class="btn btn-primary btn-sm" href="report.html">+ Report Item</a>
-      </div>
-    </div>
-
-    <div class="inner">
-      <div class="account-card">
-        <div>
-          <div class="a-name" id="acc-name">—</div>
-          <div class="a-contact" id="acc-contact">—</div>
+        <div class="brand">
+            <div class="brand-icon">
+                <!-- SVG Icon (Diamond shape) -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div>
+                <div class="brand-name">Find<span>It</span></div>
+                <div class="brand-sub">Lost &amp; Found System</div>
+            </div>
         </div>
-        <div style="display:flex;align-items:center;gap:.75rem">
-          <button class="theme-switch" id="theme-switch" onclick="toggleTheme()" title="Toggle dark mode">
-            <span class="ts-knob" id="theme-knob">☀️</span>
-          </button>
-          <button class="btn btn-outline btn-sm" onclick="logout()">Log out</button>
+
+        <nav>
+            <a href="index.html" class="nav-item">
+                <span>⌂</span> Home
+            </a>
+            <a href="report.html" class="nav-item">
+                <span>✎</span> Report Item
+            </a>
+            <a href="account.html" class="nav-item active">
+                <span>♟</span> My Account
+            </a>
+        </nav>
+
+        <div class="sidebar-art">
+            <div class="box-magnify-wrapper">
+                <!-- Box & Magnifying Glass Illustration -->
+                <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
+                    <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
+                    <rect x="60" y="55" width="8" height="25" rx="4" transform="rotate(-30 64 67.5)" fill="#684fec"/>
+                    <circle cx="50" cy="40" r="22" fill="none" stroke="#4050f0" stroke-width="8"/>
+                    <circle cx="50" cy="40" r="15" fill="#aee8ce" opacity="0.4"/>
+                    <circle cx="43" cy="33" r="4" fill="white" opacity="0.6"/>
+                    <path d="M50 45 L80 60 L50 75 L20 60 Z" fill="#ebd2b9" opacity="0.5"/>
+                </svg>
+            </div>
+            <p>
+                "Let's help each other<br>
+                to find what matters."
+            </p>
         </div>
-      </div>
 
-      <div class="section-title">My Reports (History)</div>
-      <p style="font-size:.85rem;color:var(--muted);margin:-.75rem 0 1.25rem">Reports you've submitted while logged in — Lost, Found, and Recovered. You can edit, mark recovered, or delete your own posts here.</p>
-      <div class="items-grid" id="grid-history"></div>
-    </div><!-- /inner -->
-  </div><!-- /content -->
-</div><!-- /app -->
+    </aside>
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav">
-  <div class="mobile-nav-inner">
-    <a class="mob-btn" href="index.html"><span class="m-ico">🏠</span>Home</a>
-    <a class="mob-btn" href="report.html"><span class="m-ico">✏️</span>Report</a>
-    <a class="mob-btn active" href="account.html"><span class="m-ico">👤</span>Account</a>
-  </div>
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+        <header class="topbar">
+            <h1 class="topbar-title">My Account</h1>
+
+            <div class="profile-wrap">
+                <button class="profile-btn" onclick="toggleProfileMenu()">
+                    <div class="avatar" id="top-avatar">GU</div>
+                    <div class="user-info">
+                        <small>Welcome,</small>
+                        <strong id="top-name">Guest User</strong>
+                    </div>
+                    <span class="user-arrow">⌄</span>
+                </button>
+
+                <div class="profile-menu" id="profile-menu">
+                    <button onclick="addAccount()"><span>＋</span> Add Account</button>
+                    <div class="profile-divider"></div>
+                    <button class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="page">
+
+            <div class="account-head">
+                <div>
+                    <h1 id="account-name">Guest User</h1>
+                    <p id="account-contact">Guest Account</p>
+                </div>
+            </div>
+
+            <div class="account-stats">
+                <div>
+                    <span class="red-dot"></span> Lost Reports
+                    <strong id="my-lost">0</strong>
+                </div>
+                <div>
+                    <span class="green-dot"></span> Found Reports
+                    <strong id="my-found">0</strong>
+                </div>
+                <div>
+                    <span>✓</span> Recovered
+                    <strong id="my-recovered">0</strong>
+                </div>
+            </div>
+
+            <div class="section-head">
+                <h2>My Reports</h2>
+            </div>
+
+            <div id="account-history" class="report-grid"></div>
+
+        </section>
+
+    </main>
 </div>
 
 <!-- MODAL -->
-<div class="overlay" id="overlay" style="display:none" onclick="closeOuter(event)">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h3 id="m-name"></h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-img" id="m-img"></div>
-      <div class="detail-table" id="m-details"></div>
-      <div class="contact-box" id="m-contact"></div>
-      <div class="modal-actions" id="m-actions"></div>
-    </div>
-  </div>
+<div id="item-modal" class="modal" onclick="closeOuter(event)">
+    <div id="modal-box" class="modal-box"></div>
 </div>
 
-<!-- CONFIRM DIALOG -->
-<div class="overlay" id="confirm-overlay" style="display:none" onclick="if(event.target.id==='confirm-overlay')closeConfirm()">
-  <div class="modal" style="max-width:360px">
-    <div class="modal-hdr">
-      <h3>Please Confirm</h3>
-      <button class="close-btn" onclick="closeConfirm()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p id="confirm-message" style="font-size:.9rem;color:var(--text2);line-height:1.5;margin-bottom:1.25rem"></p>
-      <div class="modal-actions">
-        <button class="btn btn-red" onclick="confirmYes()">Yes, Delete</button>
-        <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
+<div id="toast" class="toast"></div>
 
 <script src="script.js"></script>
-<script>
-const _session=requireLogin();
-if(_session){initAccountPage();}
-</script>
+
 </body>
 </html>
