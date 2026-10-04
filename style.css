@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - STYLESHEET (MOBILE OPTIMIZED FINAL)
+   FINDIT - STYLESHEET (CLEAN & COMPLETE)
 ========================================= */
 
 :root{
@@ -257,8 +257,6 @@ button{
     transform:rotate(180deg);
 }
 
-/* PROFILE MENU */
-
 .profile-menu{
     position:absolute;
     top:calc(100% + 8px);
@@ -363,7 +361,7 @@ button{
 
 
 /* =========================================
-   STATS (Desktop View)
+   STATS (DASHBOARD)
 ========================================= */
 
 .stats{
@@ -457,7 +455,7 @@ button{
 
 
 /* =========================================
-   SECTION HEAD 
+   SECTION HEAD & FILTERS
 ========================================= */
 
 .section-head{
@@ -512,7 +510,7 @@ button{
 
 
 /* =========================================
-   REPORT GRID 
+   REPORT GRID & CARDS
 ========================================= */
 
 .report-grid{
@@ -520,11 +518,6 @@ button{
     grid-template-columns:repeat(3,1fr);
     gap:20px;
 }
-
-
-/* =========================================
-   REPORT CARD 
-========================================= */
 
 .report-card{
     display:flex;
@@ -543,24 +536,30 @@ button{
     box-shadow: 0 13px 30px rgba(50,75,130,.14);
 }
 
+/* Report Card Image (Fully Displayed Without Crop) */
 .report-card-media {
     position:relative;
     width: 100%;
-    height: 220px;
+    height: auto;
+    min-height: 180px;
     background:#eef2fb;
     overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .report-card-image {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 320px;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .report-card-placeholder {
     width: 100%;
-    height: 100%;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -651,7 +650,7 @@ button{
 
 
 /* =========================================
-   EMPTY STATE 
+   EMPTY STATE
 ========================================= */
 
 .empty{
@@ -675,7 +674,7 @@ button{
 
 
 /* =========================================
-   REPORT PAGE
+   REPORT FORM PAGE
 ========================================= */
 
 .warning{
@@ -812,7 +811,6 @@ button{
     font-size:11px;
 }
 
-/* UPLOAD BOX WITH PREVIEW INSIDE */
 .upload-box{
     min-height:115px;
     display:flex;
@@ -910,7 +908,7 @@ button{
 
 
 /* =========================================
-   DETAIL MODAL & EDIT (FIXED SCROLL & OVERLAY)
+   DETAIL MODAL & ACTION BUTTONS
 ========================================= */
 
 .modal{
@@ -920,8 +918,8 @@ button{
     align-items:center;
     justify-content:center;
     padding:20px;
-    background: rgba(20,27,55,.65);
-    z-index:2000; /* Must be higher than mobile nav (999) */
+    background: rgba(20,27,55,.48);
+    z-index:200;
 }
 
 .modal.show {
@@ -930,18 +928,15 @@ button{
 
 .modal-box{
     width:min(560px,100%);
-    max-height:85vh;
-    overflow-y:auto;
-    -webkit-overflow-scrolling: touch;
+    max-height:90vh;
+    overflow:auto;
     border-radius:18px;
     background:#fff;
     box-shadow: 0 20px 60px rgba(20,30,70,.25);
-    position: relative;
 }
 
 .modal-content {
     position: relative;
-    padding-bottom: 25px; /* Ensures buttons never cut off */
 }
 
 .modal-close {
@@ -952,7 +947,7 @@ button{
     height: 36px;
     border: 0;
     border-radius: 50%;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.85);
     color: #111;
     font-size: 22px;
     font-weight: bold;
@@ -961,20 +956,21 @@ button{
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .modal-close:hover {
     background: #fff;
 }
 
+/* Modal Image: Fully visible without cropping */
 .modal-image{
     width:100%;
-    max-height:380px;
+    max-height:400px;
     height:auto;
     display:block;
     object-fit:contain;
-    background: #f0f3fa; 
+    background: #f0f3fa;
 }
 
 .modal-image-placeholder{
@@ -1051,20 +1047,24 @@ button{
     line-height:1.6;
 }
 
+/* Modal Action Buttons: Standard height, comfortable to tap */
 .modal-actions{
     display:flex;
-    gap:10px;
+    flex-direction:column;
+    gap:12px;
     margin-top:24px;
-    padding-bottom: 15px; /* Clean breathing room for buttons */
 }
 
 .modal-actions button{
-    flex:1;
-    height:45px;
+    width:100%;
+    min-height:48px;
     border:0;
-    border-radius:9px;
-    font-size:13px;
+    border-radius:12px;
+    font-size:14px;
     font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .btn-secondary{
@@ -1084,7 +1084,7 @@ button{
 
 .edit-box{
     position:relative;
-    padding:28px 28px 40px;
+    padding:28px;
 }
 
 .edit-box h2{
@@ -1156,12 +1156,12 @@ button{
     max-height:200px;
     object-fit:contain;
     border-radius:10px;
-    background: #f0f3fa;
+    background:#f0f3fa;
 }
 
 
 /* =========================================
-   ACCOUNT
+   MY ACCOUNT PAGE
 ========================================= */
 
 .account-head{
@@ -1210,7 +1210,7 @@ button{
 .account-stats{
     margin-bottom:24px;
     display:grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap:16px;
 }
 
@@ -1398,7 +1398,7 @@ button{
     font-size:12px;
     pointer-events:none;
     transition:.25s;
-    z-index:3000;
+    z-index:300;
 }
 
 .toast.show{
@@ -1408,7 +1408,7 @@ button{
 
 
 /* =========================================
-   MOBILE RESPONSIVE (OPTIMIZED DESIGN)
+   RESPONSIVE (TABLET: max-width 850px)
 ========================================= */
 
 @media(max-width:900px){
@@ -1418,7 +1418,7 @@ button{
 }
 
 @media(max-width:850px){
-    /* Bottom Navigation Bar on Mobile */
+    /* Bottom Navigation Bar for Mobile */
     .sidebar{
         position:fixed;
         left:0;
@@ -1427,7 +1427,7 @@ button{
         width:100%;
         margin:0;
         border-radius:20px 20px 0 0;
-        background:rgba(255,255,255,0.96);
+        background:rgba(255,255,255,0.95);
         backdrop-filter: blur(10px);
         box-shadow:0 -5px 25px rgba(50,75,130,0.12);
         padding:8px 10px;
@@ -1475,7 +1475,7 @@ button{
 
     .main{
         margin-left:0;
-        padding:12px 12px 90px 12px; 
+        padding:12px 12px 85px 12px; 
     }
     
     .report-grid{
@@ -1483,101 +1483,21 @@ button{
     }
 }
 
+
+/* =========================================
+   RESPONSIVE (PHONE: max-width 650px)
+========================================= */
+
 @media(max-width:650px){
-    /* 1. COMPACT HORIZONTAL SCROLL STATS ON MOBILE (နေရာမစားသော ဒီဇိုင်း) */
-    .stats{
-        display: flex;
-        overflow-x: auto;
-        gap: 10px;
-        margin: 16px 0;
-        padding: 4px 2px 10px 2px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Hide default scrollbar */
-    }
-    .stats::-webkit-scrollbar {
-        display: none;
-    }
-    
-    .stat-card {
-        flex: 0 0 auto;
-        width: 140px; /* Compact card width */
-        min-height: 80px;
-        padding: 12px;
-        gap: 8px;
-        border-radius: 14px;
-        flex-direction: column;
-        align-items: flex-start;
-        position: relative;
-    }
-
-    .stat-icon {
-        width: 34px;
-        height: 34px;
-        margin-right: 0;
-    }
-
-    .stat-icon svg {
-        width: 17px;
-        height: 17px;
-    }
-
-    .stat-chart {
-        position: absolute;
-        top: 12px;
-        right: 10px;
-    }
-
-    .stat-chart svg {
-        width: 32px;
-        height: 14px;
-    }
-
-    .stat-info strong {
-        font-size: 20px;
-        margin-top: 2px;
-    }
-
-    .stat-info span {
-        font-size: 9.5px;
-        white-space: nowrap;
-    }
-
-    /* 2. MODAL FIX (OVERLAY & PERFECT SCROLL FOR RECOVERED/EDIT/DELETE) */
+    /* Push modal up so bottom buttons don't hide behind mobile nav bar */
     .modal {
-        padding: 15px;
-        z-index: 2500; /* Completely overlays the bottom nav (999) */
-        align-items: flex-end; /* Mobile Bottom Sheet style */
-    }
-
-    .modal-box {
-        width: 100%;
-        max-height: 85vh;
-        border-radius: 20px 20px 14px 14px;
-        padding-bottom: 25px; /* Ensures buttons are fully visible */
+        padding-bottom: 95px;
     }
 
     .modal-image {
-        max-height: 260px;
-        object-fit: contain;
+        max-height: 280px;
     }
 
-    .modal-details {
-        padding: 18px 18px 30px; /* Safe space at bottom */
-    }
-
-    .modal-actions {
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    .modal-actions button {
-        width: 100%;
-        height: 44px;
-    }
-
-    /* 3. TOPBAR & HERO */
     .topbar{
         height:65px;
         padding:0 15px;
@@ -1591,28 +1511,74 @@ button{
         display:none;
     }
     .hero{
-        min-height:125px;
-        padding:18px;
+        min-height:130px;
+        padding:20px;
         border-radius: 14px;
     }
     .hero h2{
-        font-size:21px;
+        font-size:22px;
     }
     .hero p{
         font-size: 12px;
     }
     .hero-art{
-        font-size:46px;
+        font-size:50px;
+    }
+    
+    /* Stats 2x2 on Phone */
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+        margin: 18px 0;
+    }
+    
+    .stat-card {
+        padding: 15px;
+        min-height: 90px;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .stat-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .stat-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .stat-chart {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    .stat-chart svg {
+        width: 35px;
+        height: 15px;
+    }
+
+    .stat-info strong {
+        font-size: 20px;
+    }
+
+    .stat-info span {
+        font-size: 10px;
     }
 
     .section-head{
         flex-direction:column;
         align-items:stretch;
         gap:10px;
-        margin-top: 15px;
+        margin-top: 20px;
     }
     
-    /* 4. SEARCH & CATEGORY ONE ROW */
+    /* Search Bar & Categories on ONE ROW */
     .filters{
         flex-direction: row; 
         gap: 8px;
@@ -1632,6 +1598,7 @@ button{
         font-size: 11px;
     }
 
+    /* Single column cards on phone */
     .report-grid{
         grid-template-columns:1fr;
     }
@@ -1660,7 +1627,7 @@ button{
         gap:8px;
     }
     
-    /* 5. MY ACCOUNT STATS IN ONE ROW */
+    /* My Account Stats 3-in-a-row on Phone */
     .account-stats{
         grid-template-columns: repeat(3, 1fr); 
         gap: 8px; 
@@ -1688,11 +1655,9 @@ button{
     .modal-info{
         grid-template-columns:1fr;
     }
-    .report-card-media, .report-card-footer {
+    
+    .report-card-footer {
         flex-direction:column;
         align-items:flex-start;
-    }
-    .report-card-media {
-        height: 180px;
     }
 }
