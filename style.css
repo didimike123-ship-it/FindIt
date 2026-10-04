@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - STYLESHEET (UPDATED - 4 COLUMNS & ICONS)
+   FINDIT - STYLESHEET (UPDATED - FULL FINAL CLEAN)
 ========================================= */
 
 :root{
@@ -159,6 +159,7 @@ button{
     margin-top: -10px;
 }
 
+
 /* =========================================
    MAIN
 ========================================= */
@@ -168,6 +169,7 @@ button{
     margin-left:277px;
     padding:16px;
 }
+
 
 /* =========================================
    TOP BAR
@@ -192,6 +194,7 @@ button{
     font-size:26px;
     font-weight:800;
 }
+
 
 /* =========================================
    PROFILE
@@ -319,6 +322,7 @@ button{
     background:#fff1f3;
 }
 
+
 /* =========================================
    PAGE
 ========================================= */
@@ -326,6 +330,7 @@ button{
 .page{
     padding:0px 7px 30px;
 }
+
 
 /* =========================================
    HERO
@@ -356,6 +361,7 @@ button{
     font-size:75px;
 }
 
+
 /* =========================================
    STATS (4 Columns restored with new design)
 ========================================= */
@@ -373,7 +379,7 @@ button{
     align-items:center;
     gap:12px;
     padding:17px 19px;
-    border:0;
+    border: 2px solid transparent; 
     border-radius:15px;
     background:#fff;
     box-shadow:var(--shadow);
@@ -385,6 +391,18 @@ button{
     transform: translateY(-3px);
 }
 
+/* ACTIVE FILTER STATE */
+.stat-card.active-filter {
+    border: 2px solid var(--blue);
+    box-shadow: 0 10px 30px rgba(70, 87, 239, 0.15);
+    transform: translateY(-3px);
+}
+
+.stat-card.active-filter .stat-icon.blue { background: var(--blue); color: #fff; }
+.stat-card.active-filter .stat-icon.red { background: var(--red); color: #fff; }
+.stat-card.active-filter .stat-icon.green { background: var(--green); color: #fff; }
+.stat-card.active-filter .stat-icon.purple { background: var(--purple); color: #fff; }
+
 .stat-icon{
     width:45px;
     height:45px;
@@ -392,6 +410,7 @@ button{
     align-items:center;
     justify-content:center;
     border-radius:50%;
+    transition: 0.2s ease;
 }
 
 .stat-icon.purple{
@@ -435,6 +454,7 @@ button{
     display:flex;
     align-items:center;
 }
+
 
 /* =========================================
    SECTION HEAD 
@@ -490,6 +510,7 @@ button{
     font-size: 13px;
 }
 
+
 /* =========================================
    REPORT GRID 
 ========================================= */
@@ -499,6 +520,7 @@ button{
     grid-template-columns:repeat(3,1fr);
     gap:20px;
 }
+
 
 /* =========================================
    REPORT CARD 
@@ -627,6 +649,7 @@ button{
     text-overflow: ellipsis;
 }
 
+
 /* =========================================
    EMPTY STATE
 ========================================= */
@@ -649,6 +672,7 @@ button{
     margin:0;
     font-size:13px;
 }
+
 
 /* =========================================
    REPORT PAGE
@@ -883,6 +907,7 @@ button{
     font-size:14px;
     font-weight:800;
 }
+
 
 /* =========================================
    DETAIL MODAL
@@ -1127,6 +1152,7 @@ button{
     border-radius:10px;
 }
 
+
 /* =========================================
    ACCOUNT
 ========================================= */
@@ -1214,6 +1240,7 @@ button{
 .green-dot{
     background:#19bf76;
 }
+
 
 /* =========================================
    LOGIN & AUTH
@@ -1346,6 +1373,7 @@ button{
     color:#7d87a2;
 }
 
+
 /* =========================================
    TOAST
 ========================================= */
@@ -1371,6 +1399,7 @@ button{
     transform: translate(-50%,0);
 }
 
+
 /* =========================================
    MOBILE RESPONSIVE
 ========================================= */
@@ -1382,28 +1411,67 @@ button{
 }
 
 @media(max-width:850px){
+    /* 1. Transform Sidebar into Mobile Bottom Navigation */
     .sidebar{
-        position:relative;
-        left:auto;
+        position:fixed;
+        left:0;
+        bottom:0;
         top:auto;
-        bottom:auto;
-        width:auto;
-        margin:10px;
-    }
-    .sidebar-art{
-        display:none;
-    }
-    .sidebar nav{
-        flex-direction:row;
-    }
-    .nav-item{
-        flex:1;
+        width:100%;
+        margin:0;
+        border-radius:20px 20px 0 0;
+        background:rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        box-shadow:0 -5px 25px rgba(50,75,130,0.12);
+        padding:8px 10px;
+        z-index:999;
+        display:flex;
+        align-items:center;
         justify-content:center;
     }
+    
+    .brand, .sidebar-art {
+        display:none; /* Hide Logo and Art on Bottom Nav */
+    }
+    
+    .sidebar nav{
+        flex-direction:row;
+        width:100%;
+        justify-content:space-around;
+        padding:0;
+        gap:0;
+    }
+    
+    .nav-item{
+        flex:1;
+        flex-direction:column;
+        justify-content:center;
+        gap:5px;
+        height:auto;
+        padding:10px 5px;
+        border-radius:12px;
+        font-size:11px;
+    }
+
+    .nav-item span{
+        font-size:22px;
+    }
+
+    .nav-item.active {
+        background: transparent;
+        color: var(--blue);
+    }
+
+    .nav-item.active span {
+        color: var(--blue);
+    }
+
+    /* 2. Main content adjustment for Bottom Nav */
     .main{
         margin-left:0;
-        padding:10px;
+        padding:12px 12px 85px 12px; /* Bottom padding to clear the nav bar */
     }
+    
     .report-grid{
         grid-template-columns: repeat(2,1fr);
     }
@@ -1411,48 +1479,114 @@ button{
 
 @media(max-width:650px){
     .topbar{
-        height:68px;
+        height:65px;
         padding:0 15px;
+        margin-bottom: 15px;
+        border-radius: 14px;
     }
     .topbar-title{
-        font-size:22px;
+        font-size:20px;
     }
     .user-info{
         display:none;
     }
     .hero{
-        min-height:145px;
-        padding:22px;
+        min-height:130px;
+        padding:20px;
+        border-radius: 14px;
     }
     .hero h2{
-        font-size:24px;
+        font-size:22px;
     }
     .hero p{
-        font-size: 13px;
+        font-size: 12px;
     }
     .hero-art{
-        font-size:52px;
+        font-size:50px;
     }
+    
     .stats{
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+        margin: 18px 0;
     }
+    
+    .stat-card {
+        padding: 15px;
+        min-height: 90px;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .stat-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 38px;
+        height: 38px;
+    }
+
+    .stat-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .stat-chart {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    .stat-chart svg {
+        width: 35px;
+        height: 15px;
+    }
+
+    .stat-info strong {
+        font-size: 20px;
+    }
+
+    .stat-info span {
+        font-size: 10px;
+    }
+
     .section-head{
         flex-direction:column;
         align-items:stretch;
-        gap:9px;
+        gap:10px;
+        margin-top: 20px;
     }
+    
+    /* 1. Search Bar & Categories in ONE ROW on Mobile */
     .filters{
-        flex-direction:column;
+        flex-direction: row; /* ဘေးတိုက်ထားမည် */
+        gap: 8px;
+        width: 100%;
     }
-    .search-box,
+    .search-box {
+        flex: 1; /* နေရာလွတ်ကို Search Box ကယူမည် */
+        min-width: 0;
+        height: 42px;
+    }
     .filters select{
-        width:100%;
+        width: 125px; /* Category အကွက်ကို Fixed Size ပေးမည် */
+        min-width: 0;
+        flex-shrink: 0;
+        height: 42px;
+        padding: 0 8px;
+        font-size: 11px;
     }
+
     .report-grid{
         grid-template-columns:1fr;
     }
+    
+    .form-card {
+        padding: 18px;
+    }
     .form-grid{
         grid-template-columns:1fr;
+        gap: 15px;
     }
     .field.full{
         grid-column:auto;
@@ -1463,15 +1597,36 @@ button{
     }
     .type-btn{
         border-radius:10px !important;
+        height: 48px;
     }
     .account-head{
         align-items:flex-start;
         flex-direction:column;
-        gap:12px;
+        gap:8px;
     }
+    
+    /* 2. My Account Stats 3-in-a-row on Mobile */
     .account-stats{
-        grid-template-columns:1fr;
+        grid-template-columns: repeat(3, 1fr); /* ၃ ကွက်တွဲ */
+        gap: 8px; /* ကွက်လပ်ကို နည်းနည်းလျှော့မည် */
+        margin-bottom: 20px;
     }
+    .account-stats > div {
+        padding: 10px 5px; /* ဘေးဘောင်ကို သေးပေးမည် */
+        flex-direction: column; /* အစက်၊ စာ၊ ဂဏန်းကို အပေါ်အောက်စီမည် */
+        justify-content: center;
+        text-align: center;
+        gap: 5px;
+        font-size: 9px; /* စာလုံးအရွယ်အစား သေးပေးမည် */
+    }
+    .account-stats > div span {
+        margin: 0; /* အစက်လေးကို အလယ်ရောက်အောင် */
+    }
+    .account-stats strong{
+        margin-left: 0;
+        font-size: 18px; /* ဂဏန်းကို အလယ်ဗဟိုမှာထားမည် */
+    }
+
     .auth-card{
         padding:22px;
     }
@@ -1482,17 +1637,13 @@ button{
         flex-direction:column;
     }
     .modal-image{
-        height:220px;
+        height:200px;
     }
-    .report-card-meta,
-    .report-card-footer {
+    .report-card-media, .report-card-footer {
         flex-direction:column;
         align-items:flex-start;
     }
-}
-
-@media (max-width: 500px){
-    .stats{
-        grid-template-columns:1fr;
+    .report-card-media {
+        height: 180px;
     }
 }
