@@ -1,70 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FindIt — Log In</title>
-<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>FindIt — Login</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
 </head>
-<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem">
 
-  <div class="form-card" style="max-width:400px;width:100%">
-    <div class="logo" style="text-align:center;font-size:1.5rem;margin-bottom:.15rem">Find<span>It</span></div>
-    <div class="logo-sub" style="text-align:center;margin-bottom:1.5rem">Lost &amp; Found System</div>
+<body class="auth-page">
 
-    <div class="type-tabs">
-      <button class="type-tab active is-auth" id="tab-login" onclick="setAuthTab('login')">Log In</button>
-      <button class="type-tab is-auth" id="tab-signup" onclick="setAuthTab('signup')">Sign Up</button>
+
+<div class="auth-card">
+
+
+    <div class="auth-logo">
+
+        <div class="brand-icon">
+            ◆
+        </div>
+
+        <div>
+
+            <div class="brand-name">
+                Find<span>It</span>
+            </div>
+
+            <div class="brand-sub">
+                Lost &amp; Found System
+            </div>
+
+        </div>
+
     </div>
+
+
+    <!-- LOGIN / SIGNUP -->
+
+    <div class="auth-tabs">
+
+        <button
+            id="tab-login"
+            class="auth-tab active"
+            onclick="setAuthTab('login')"
+        >
+            Log In
+        </button>
+
+        <button
+            id="tab-signup"
+            class="auth-tab"
+            onclick="setAuthTab('signup')"
+        >
+            Sign Up
+        </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
 
     <div id="login-fields">
-      <div class="field">
-        <label>Phone Number or Email <span class="req">*</span></label>
-        <input class="input" type="text" id="li-contact" placeholder="e.g. 09123456789 or you@example.com" onkeydown="focusNext(event,'li-pw')"/>
-      </div>
-      <div class="field">
-        <label>Password <span class="req">*</span></label>
-        <div class="pw-wrap">
-          <input class="input" type="password" id="li-pw" placeholder="Enter your password" onkeydown="submitOnEnter(event,doLogin)"/>
-          <button type="button" class="pw-toggle" onclick="togglePw('li-pw',this)">👁️</button>
+
+
+        <div class="field">
+
+            <label>
+                Phone Number or Email <em>*</em>
+            </label>
+
+            <input
+                id="li-contact"
+                class="auth-input"
+                placeholder="e.g. 09123456789 or you@example.com"
+                onkeydown="focusNext(event,'li-pw')"
+            >
+
         </div>
-      </div>
-      <button class="submit-btn" onclick="doLogin()">Log In</button>
+
+
+        <div class="field">
+
+            <label>
+                Password <em>*</em>
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="li-pw"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Enter your password"
+                    onkeydown="submitOnEnter(event,doLogin)"
+                >
+
+                <button
+                    type="button"
+                    onclick="togglePw('li-pw',this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+
+            <div class="forgot-wrap">
+
+                <button
+                    class="forgot-link"
+                    onclick="setAuthTab('forgot')"
+                >
+                    Forgot password?
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="doLogin()"
+        >
+            Log In
+        </button>
+
+
+        <button
+            class="guest-btn"
+            onclick="guestMode()"
+        >
+            👤 Continue as Guest
+        </button>
+
+
+        <p class="auth-note">
+            Guest Mode lets you browse reports,
+            but you must log in to submit or
+            manage your own reports.
+        </p>
+
     </div>
 
-    <div id="signup-fields" style="display:none">
-      <div class="field">
-        <label>Name <span class="req">*</span></label>
-        <input class="input" type="text" id="su-name" placeholder="Your full name" onkeydown="focusNext(event,'su-contact')"/>
-      </div>
-      <div class="field">
-        <label>Phone Number or Email <span class="req">*</span></label>
-        <input class="input" type="text" id="su-contact" placeholder="e.g. 09123456789 or you@example.com" onkeydown="focusNext(event,'su-pw')"/>
-      </div>
-      <div class="field">
-        <label>Password <span class="req">*</span></label>
-        <div class="pw-wrap">
-          <input class="input" type="password" id="su-pw" placeholder="Choose a password" onkeydown="focusNext(event,'su-pw2')"/>
-          <button type="button" class="pw-toggle" onclick="togglePw('su-pw',this)">👁️</button>
+
+    <!-- SIGN UP -->
+
+    <div
+        id="signup-fields"
+        style="display:none"
+    >
+
+        <div class="field">
+
+            <label>
+                Name <em>*</em>
+            </label>
+
+            <input
+                id="su-name"
+                class="auth-input"
+                placeholder="Your full name"
+                onkeydown="focusNext(event,'su-contact')"
+            >
+
         </div>
-      </div>
-      <div class="field">
-        <label>Confirm Password <span class="req">*</span></label>
-        <div class="pw-wrap">
-          <input class="input" type="password" id="su-pw2" placeholder="Re-enter password" onkeydown="submitOnEnter(event,doSignup)"/>
-          <button type="button" class="pw-toggle" onclick="togglePw('su-pw2',this)">👁️</button>
+
+
+        <div class="field">
+
+            <label>
+                Phone Number or Email <em>*</em>
+            </label>
+
+            <input
+                id="su-contact"
+                class="auth-input"
+                placeholder="e.g. 09123456789 or you@example.com"
+                onkeydown="focusNext(event,'su-pw')"
+            >
+
         </div>
-      </div>
-      <button class="submit-btn" onclick="doSignup()">Create Account</button>
+
+
+        <div class="field">
+
+            <label>
+                Password <em>*</em>
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="su-pw"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Choose a password"
+                    onkeydown="focusNext(event,'su-pw2')"
+                >
+
+                <button
+                    type="button"
+                    onclick="togglePw('su-pw',this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Confirm Password <em>*</em>
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="su-pw2"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Re-enter password"
+                    onkeydown="submitOnEnter(event,doSignup)"
+                >
+
+                <button
+                    type="button"
+                    onclick="togglePw('su-pw2',this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="doSignup()"
+        >
+            Create Account
+        </button>
+
+
+        <p class="auth-note">
+
+            Already have an account?
+
+            <button
+                class="inline-link"
+                onclick="setAuthTab('login')"
+            >
+                Log in
+            </button>
+
+        </p>
+
     </div>
-  </div>
+
+
+    <!-- FORGOT -->
+
+    <div
+        id="forgot-fields"
+        style="display:none"
+    >
+
+        <div class="reset-box">
+
+            🔐
+
+            <strong>
+                Reset your password
+            </strong>
+
+            <p>
+                Enter your registered phone number
+                or email and choose a new password.
+            </p>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Phone Number or Email <em>*</em>
+            </label>
+
+            <input
+                id="fp-contact"
+                class="auth-input"
+                placeholder="Your registered phone/email"
+                onkeydown="focusNext(event,'fp-pw')"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                New Password <em>*</em>
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="fp-pw"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Choose a new password"
+                    onkeydown="focusNext(event,'fp-pw2')"
+                >
+
+                <button
+                    type="button"
+                    onclick="togglePw('fp-pw',this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Confirm New Password <em>*</em>
+            </label>
+
+            <div class="password-wrap">
+
+                <input
+                    id="fp-pw2"
+                    class="auth-input"
+                    type="password"
+                    placeholder="Re-enter new password"
+                    onkeydown="submitOnEnter(event,doForgotPassword)"
+                >
+
+                <button
+                    type="button"
+                    onclick="togglePw('fp-pw2',this)"
+                >
+                    👁️
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="doForgotPassword()"
+        >
+            Reset Password
+        </button>
+
+
+        <p class="auth-note">
+
+            Remember your password?
+
+            <button
+                class="inline-link"
+                onclick="setAuthTab('login')"
+            >
+                Back to Log In
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
 
 <script src="script.js"></script>
-<script>
-// Already logged in? Skip straight to Home.
-if(getSession()) window.location.href='index.html';
-</script>
+
 </body>
 </html>
