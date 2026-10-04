@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - SHARED JAVASCRIPT
+   FINDIT - SHARED JAVASCRIPT (UPDATED)
 ========================================= */
 
 const ICONS = {
@@ -446,7 +446,7 @@ function submitItem() {
 }
 
 /* =========================================
-   ACCOUNT
+   ACCOUNT (FIXED COUNT RECOVERED CALCULATION)
 ========================================= */
 
 function initAccount() {
@@ -486,8 +486,10 @@ function initAccount() {
     }
 
     const mine = items.filter(x => x.ownerId === session.id);
-    const lost = mine.filter(x => x.type === "lost").length;
-    const found = mine.filter(x => x.type === "found").length;
+    
+    // ပြင်ဆင်ချက်: Recovered မဖြစ်သေးသော report များကိုသာ Lost/Found စာရင်းတွင် ရေတွက်မည်
+    const lost = mine.filter(x => x.type === "lost" && x.recovered !== true).length;
+    const found = mine.filter(x => x.type === "found" && x.recovered !== true).length;
     const recovered = mine.filter(x => x.recovered === true).length;
 
     const lostCount = document.getElementById("my-lost");
@@ -567,7 +569,6 @@ function createCard(item) {
 function setDashboardFilter(filter) {
     dashboardFilter = filter;
     
-    // UI Active State Change
     const buttons = document.querySelectorAll('.stat-card');
     buttons.forEach(btn => btn.classList.remove('active-filter'));
     
@@ -918,7 +919,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (page === "" || page === "index.html") {
         setupDashboardSearch();
-        // Initialize dashboard and active filter state
         setDashboardFilter(dashboardFilter);
     }
 
