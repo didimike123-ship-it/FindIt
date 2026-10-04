@@ -1,114 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FindIt — Report an Item</title>
-<script>if(localStorage.getItem('findit2_theme')==='dark')document.documentElement.classList.add('dark')</script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FindIt — Report Item</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-top">
-      <div class="logo">Find<span>It</span></div>
-      <div class="logo-sub">Lost &amp; Found System</div>
-    </div>
-    <nav class="nav">
-      <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Home</a>
-      <a class="nav-item active" href="report.html"><span class="nav-icon">✏️</span> Report Item</a>
-      <a class="nav-item" href="account.html"><span class="nav-icon">👤</span> My Account</a>
-    </nav>
-  </aside>
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
 
-  <!-- MAIN CONTENT -->
-  <div class="content">
-    <div class="topbar">
-      <span class="topbar-title">Report an Item</span>
-      <div class="topbar-right"></div>
-    </div>
-
-    <div class="inner">
-      <div class="form-wrap">
-        <div class="form-card">
-          <div class="form-card-head">
-            <div class="fch-icon">📋</div>
+        <div class="brand">
+            <div class="brand-icon">
+                <!-- SVG Icon (Diamond shape) -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
             <div>
-              <div class="fch-title">Item Details</div>
-              <div class="fch-sub">Fill in as much detail as you can — it helps others recognize and return the right item.</div>
+                <div class="brand-name">Find<span>It</span></div>
+                <div class="brand-sub">Lost &amp; Found System</div>
             </div>
-          </div>
-          <div class="type-tabs">
-            <button class="type-tab active is-lost" id="tab-lost" onclick="setType('lost')">🔴 I Lost Something</button>
-            <button class="type-tab is-found" id="tab-found" onclick="setType('found')">🟢 I Found Something</button>
-          </div>
-          <div class="field">
-            <label>Item Name <span class="req">*</span></label>
-            <input class="input" type="text" id="f-name" placeholder="e.g. Black Samsung Galaxy S24" oninput="this.classList.remove('input-error')"/>
-          </div>
-          <div class="fields-2">
-            <div class="field">
-              <label>Category <span class="req">*</span></label>
-              <select class="input" id="f-cat" onchange="this.classList.remove('input-error')">
-                <option value="">Select category…</option>
-                <option>Phone</option><option>Wallet</option><option>Keys</option>
-                <option>ID Card</option><option>Books</option><option>Others</option>
-              </select>
-            </div>
-            <div class="field">
-              <label id="lbl-date">Date Lost <span class="req">*</span></label>
-              <input class="input" type="date" id="f-date" oninput="this.classList.remove('input-error')"/>
-            </div>
-          </div>
-          <div class="field">
-            <label id="lbl-loc">Location Lost <span class="req">*</span></label>
-            <input class="input" type="text" id="f-loc" placeholder="e.g. Library 2nd Floor, Cafeteria" oninput="this.classList.remove('input-error')"/>
-          </div>
-          <div class="field">
-            <label>Description</label>
-            <textarea class="input" id="f-desc" placeholder="Color, brand, distinguishing marks…"></textarea>
-          </div>
-          <div class="field">
-            <label>Contact Info <span class="req">*</span></label>
-            <input class="input" type="text" id="f-contact" placeholder="Phone number or email address" oninput="this.classList.remove('input-error')"/>
-          </div>
-          <div class="field">
-            <label>Photo <span class="opt-lbl">(optional)</span></label>
-            <div class="photo-upload" onclick="document.getElementById('f-photo').click()">
-              <div class="photo-upload-empty" id="photo-upload-empty">
-                <div class="pu-icon">📷</div>
-                <div class="pu-text">Tap to add a photo</div>
-                <div class="pu-hint">JPG or PNG</div>
-              </div>
-              <img id="photo-preview-img" style="display:none" alt="Preview"/>
-            </div>
-            <input type="file" id="f-photo" accept="image/*" style="display:none" onchange="previewPhoto(this)"/>
-          </div>
-          <button class="submit-btn" onclick="submitItem()">📮 Submit Report</button>
         </div>
-      </div>
-    </div><!-- /inner -->
-  </div><!-- /content -->
-</div><!-- /app -->
 
-<!-- MOBILE NAV -->
-<div class="mobile-nav">
-  <div class="mobile-nav-inner">
-    <a class="mob-btn" href="index.html"><span class="m-ico">🏠</span>Home</a>
-    <a class="mob-btn active" href="report.html"><span class="m-ico">✏️</span>Report</a>
-    <a class="mob-btn" href="account.html"><span class="m-ico">👤</span>Account</a>
-  </div>
+        <nav>
+            <a href="index.html" class="nav-item">
+                <span>⌂</span> Home
+            </a>
+            <a href="report.html" class="nav-item active">
+                <span>✎</span> Report Item
+            </a>
+            <a href="account.html" class="nav-item">
+                <span>♟</span> My Account
+            </a>
+        </nav>
+
+        <div class="sidebar-art">
+            <div class="box-magnify-wrapper">
+                <!-- Box & Magnifying Glass Illustration -->
+                <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
+                    <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
+                    <rect x="60" y="55" width="8" height="25" rx="4" transform="rotate(-30 64 67.5)" fill="#684fec"/>
+                    <circle cx="50" cy="40" r="22" fill="none" stroke="#4050f0" stroke-width="8"/>
+                    <circle cx="50" cy="40" r="15" fill="#aee8ce" opacity="0.4"/>
+                    <circle cx="43" cy="33" r="4" fill="white" opacity="0.6"/>
+                    <path d="M50 45 L80 60 L50 75 L20 60 Z" fill="#ebd2b9" opacity="0.5"/>
+                </svg>
+            </div>
+            <p>
+                "Let's help each other<br>
+                to find what matters."
+            </p>
+        </div>
+
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+        <header class="topbar">
+            <h1 class="topbar-title">Report Item</h1>
+
+            <div class="profile-wrap">
+                <button class="profile-btn" onclick="toggleProfileMenu()">
+                    <div class="avatar" id="top-avatar">GU</div>
+                    <div class="user-info">
+                        <small>Welcome,</small>
+                        <strong id="top-name">Guest User</strong>
+                    </div>
+                    <span class="user-arrow">⌄</span>
+                </button>
+
+                <div class="profile-menu" id="profile-menu">
+                    <button onclick="addAccount()"><span>＋</span> Add Account</button>
+                    <div class="profile-divider"></div>
+                    <button class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
+                </div>
+            </div>
+        </header>
+
+        <section class="page">
+            
+            <div id="guest-report-warning" class="warning" style="display:none">
+                <span>♟</span>
+                <div>
+                    <strong>Guest Mode is read-only.</strong>
+                    <p>Please log in to submit a Lost or Found report.</p>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <!-- LOST / FOUND -->
+                <div class="type-switch">
+                    <button id="lost-tab" class="type-btn lost active" onclick="setType('lost')">
+                        🔴 🎒 I Lost Something
+                    </button>
+                    <button id="found-tab" class="type-btn found" onclick="setType('found')">
+                        🟢 🎁 I Found Something
+                    </button>
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="field full">
+                        <label>Item Name <em>*</em></label>
+                        <div class="input-wrap">
+                            <span>🏷</span>
+                            <input id="item-title" placeholder="e.g. Black Samsung Galaxy S24">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Category <em>*</em></label>
+                        <div class="input-wrap">
+                            <span>▦</span>
+                            <select id="item-category">
+                                <option value="">Select category</option>
+                                <option>Phone</option>
+                                <option>Wallet</option>
+                                <option>Keys</option>
+                                <option>ID Card</option>
+                                <option>Books</option>
+                                <option>Electronics</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Date Label -->
+                    <div class="field">
+                        <label><span id="label-date">Lost Date</span> <em>*</em></label>
+                        <div class="input-wrap">
+                            <span>▣</span>
+                            <input id="item-date" type="date">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Location Label -->
+                    <div class="field full">
+                        <label><span id="label-location">Lost Location</span> <em>*</em></label>
+                        <div class="input-wrap">
+                            <span>📍</span>
+                            <input id="item-location" placeholder="e.g. Library 2nd Floor">
+                        </div>
+                    </div>
+
+                    <!-- Contact Info Field -->
+                    <div class="field full">
+                        <label>Contact Info <em>*</em></label>
+                        <div class="input-wrap">
+                            <span>📞</span>
+                            <input id="item-contact" placeholder="e.g. 09123456789 or email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="field full">
+                        <label>Description <em>*</em></label>
+                        <div class="textarea-wrap">
+                            <span>▤</span>
+                            <textarea id="item-description" maxlength="500" placeholder="Describe the item, color, brand, unique marks, contents, etc." oninput="updateDescriptionCount()"></textarea>
+                            <small id="description-count">0/500</small>
+                        </div>
+                    </div>
+
+                    <div class="field full">
+                        <label>Photo</label>
+                        <label class="upload-box" for="item-photo">
+                            <div id="upload-prompt" class="upload-prompt">
+                                <div>🖼️</div>
+                                <strong>Click to upload a photo</strong>
+                                <small>PNG, JPG up to 5MB</small>
+                            </div>
+                            <div id="photo-preview" class="photo-preview-inside"></div>
+                            <input id="item-photo" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewPhoto(this)">
+                        </label>
+                    </div>
+
+                </div>
+
+                <button class="primary-btn" onclick="submitItem()">
+                    ➤ &nbsp; Submit Report
+                </button>
+            </div>
+
+        </section>
+    </main>
 </div>
 
+<div id="toast" class="toast"></div>
+
 <script src="script.js"></script>
-<script>
-const _session=requireLogin();
-if(_session){
-  initReportPageFromQuery();
-}
-</script>
+
 </body>
 </html>
