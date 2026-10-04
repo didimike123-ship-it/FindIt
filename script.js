@@ -303,7 +303,7 @@ function requireLogin() {
 }
 
 /* =========================================
-   REPORT TYPE (Dynamic Text Update)
+   REPORT TYPE
 ========================================= */
 
 function setType(type) {
@@ -313,7 +313,6 @@ function setType(type) {
     lostTab?.classList.toggle("active", type === "lost");
     foundTab?.classList.toggle("active", type === "found");
     
-    // Dynamic Labels for Date and Location
     const lblDate = document.getElementById("label-date");
     const lblLoc = document.getElementById("label-location");
     
@@ -567,6 +566,16 @@ function createCard(item) {
 
 function setDashboardFilter(filter) {
     dashboardFilter = filter;
+    
+    // UI Active State Change
+    const buttons = document.querySelectorAll('.stat-card');
+    buttons.forEach(btn => btn.classList.remove('active-filter'));
+    
+    const activeBtn = document.getElementById('filter-' + filter);
+    if(activeBtn) {
+        activeBtn.classList.add('active-filter');
+    }
+    
     renderDashboard();
 }
 
@@ -688,7 +697,6 @@ function renderModalView(item) {
         statusText = "FOUND"; statusClass = "found";
     }
 
-    // Dynamic labels for display in modal
     const dateLabel = item.type === "lost" ? "Lost Date" : "Found Date";
     const locLabel = item.type === "lost" ? "Lost Location" : "Found Location";
 
@@ -910,7 +918,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (page === "" || page === "index.html") {
         setupDashboardSearch();
-        renderDashboard();
+        // Initialize dashboard and active filter state
+        setDashboardFilter(dashboardFilter);
     }
 
     if (page === "report.html") {
@@ -920,7 +929,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (warning) warning.style.display = "flex";
         }
         
-        // Initialize dynamic labels correctly on page load
         setType(curType);
 
         const date = document.getElementById("item-date");
