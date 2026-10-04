@@ -361,7 +361,7 @@ button{
 
 
 /* =========================================
-   STATS (DASHBOARD)
+   STATS (DASHBOARD - DESKTOP)
 ========================================= */
 
 .stats{
@@ -409,6 +409,7 @@ button{
     justify-content:center;
     border-radius:50%;
     transition: 0.2s ease;
+    flex-shrink: 0;
 }
 
 .stat-icon.purple{
@@ -536,7 +537,6 @@ button{
     box-shadow: 0 13px 30px rgba(50,75,130,.14);
 }
 
-/* Report Card Image (Fully Displayed Without Crop) */
 .report-card-media {
     position:relative;
     width: 100%;
@@ -907,9 +907,9 @@ button{
 }
 
 
-/* =========================================
-   DETAIL MODAL & ACTION BUTTONS
-========================================= */
+/* =======================================================
+   DETAIL MODAL & ACTION BUTTONS (Z-INDEX 1000 FOR OVERLAY)
+======================================================= */
 
 .modal{
     position:fixed;
@@ -919,7 +919,7 @@ button{
     justify-content:center;
     padding:20px;
     background: rgba(20,27,55,.48);
-    z-index:200;
+    z-index:1000; /* Higher than Mobile Bottom Nav (999) to cover it */
 }
 
 .modal.show {
@@ -1047,7 +1047,7 @@ button{
     line-height:1.6;
 }
 
-/* Modal Action Buttons: Standard height, comfortable to tap */
+/* Action Buttons: Standard height, clear and visible */
 .modal-actions{
     display:flex;
     flex-direction:column;
@@ -1343,7 +1343,6 @@ button{
     background:none;
     font-size:12px;
     font-weight:800;
-    cursor:pointer;
 }
 
 .guest-btn{
@@ -1398,7 +1397,7 @@ button{
     font-size:12px;
     pointer-events:none;
     transition:.25s;
-    z-index:300;
+    z-index:1100;
 }
 
 .toast.show{
@@ -1431,7 +1430,7 @@ button{
         backdrop-filter: blur(10px);
         box-shadow:0 -5px 25px rgba(50,75,130,0.12);
         padding:8px 10px;
-        z-index:999;
+        z-index:999; /* Below Modal (1000) */
         display:flex;
         align-items:center;
         justify-content:center;
@@ -1489,9 +1488,8 @@ button{
 ========================================= */
 
 @media(max-width:650px){
-    /* Push modal up so bottom buttons don't hide behind mobile nav bar */
     .modal {
-        padding-bottom: 95px;
+        padding: 12px;
     }
 
     .modal-image {
@@ -1525,14 +1523,29 @@ button{
         font-size:50px;
     }
     
-    /* Stats 2x2 on Phone */
+    /* 1. HORIZONTAL SCROLL FOR STATS CARDS */
     .stats{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
         margin: 18px 0;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
     
+    /* Hide scrollbar */
+    .stats::-webkit-scrollbar {
+        display: none;
+    }
+    .stats {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
     .stat-card {
+        flex: 0 0 160px; /* Card size for horizontal scroll */
+        scroll-snap-align: start;
         padding: 15px;
         min-height: 90px;
         flex-direction: column;
