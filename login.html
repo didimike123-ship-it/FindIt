@@ -1,405 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0"
->
-
-<title>FindIt — Login</title>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="auth-page">
 
-
-<div class="auth-card">
-
-
-    <div class="auth-logo">
-
-        <div class="brand-icon">
-            ◆
+    <div class="auth-card">
+        <!-- ================= BRAND LOGO (MATCHED WITH SIDEBAR) ================= -->
+        <div class="brand auth-logo">
+            <div class="brand-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div>
+                <div class="brand-name">Find<span>It</span></div>
+                <div class="brand-sub">Lost &amp; Found System</div>
+            </div>
         </div>
 
-        <div>
-
-            <div class="brand-name">
-                Find<span>It</span>
-            </div>
-
-            <div class="brand-sub">
-                Lost &amp; Found System
-            </div>
-
+        <!-- ================= AUTH TABS ================= -->
+        <div class="auth-tabs">
+            <button type="button" id="tab-login" class="auth-tab active" onclick="setAuthTab('login')">Sign In</button>
+            <button type="button" id="tab-signup" class="auth-tab" onclick="setAuthTab('signup')">Sign Up</button>
         </div>
 
-    </div>
-
-
-    <!-- LOGIN / SIGNUP -->
-
-    <div class="auth-tabs">
-
-        <button
-            id="tab-login"
-            class="auth-tab active"
-            onclick="setAuthTab('login')"
-        >
-            Log In
-        </button>
-
-        <button
-            id="tab-signup"
-            class="auth-tab"
-            onclick="setAuthTab('signup')"
-        >
-            Sign Up
-        </button>
-
-    </div>
-
-
-    <!-- LOGIN -->
-
-    <div id="login-fields">
-
-
-        <div class="field">
-
-            <label>
-                Phone Number or Email <em>*</em>
-            </label>
-
-            <input
-                id="li-contact"
-                class="auth-input"
-                placeholder="e.g. 09123456789 or you@example.com"
-                onkeydown="focusNext(event,'li-pw')"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Password <em>*</em>
-            </label>
-
-            <div class="password-wrap">
-
-                <input
-                    id="li-pw"
-                    class="auth-input"
-                    type="password"
-                    placeholder="Enter your password"
-                    onkeydown="submitOnEnter(event,doLogin)"
-                >
-
-                <button
-                    type="button"
-                    onclick="togglePw('li-pw',this)"
-                >
-                    👁️
-                </button>
-
+        <!-- ================= LOGIN FORM ================= -->
+        <div id="login-fields">
+            <div class="field">
+                <label>Phone or Email</label>
+                <div class="input-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                    <input id="li-contact" placeholder="09123456789 or name@example.com" onkeydown="focusNext(event, 'li-pw')">
+                </div>
             </div>
 
+            <div class="field" style="margin-top: 14px;">
+                <label>Password</label>
+                <div class="input-wrap password-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </span>
+                    <input id="li-pw" type="password" placeholder="Enter password" onkeydown="submitOnEnter(event, doLogin)">
+                    <button type="button" onclick="togglePw('li-pw', this)">👁️</button>
+                </div>
+            </div>
 
             <div class="forgot-wrap">
-
-                <button
-                    class="forgot-link"
-                    onclick="setAuthTab('forgot')"
-                >
-                    Forgot password?
-                </button>
-
+                <button type="button" class="forgot-link" onclick="setAuthTab('forgot')">Forgot password?</button>
             </div>
 
+            <button type="button" class="primary-btn" onclick="doLogin()">Sign In</button>
         </div>
 
+        <!-- ================= SIGNUP FORM ================= -->
+        <div id="signup-fields" style="display:none;">
+            <div class="field">
+                <label>Full Name</label>
+                <div class="input-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                    <input id="su-name" placeholder="John Doe" onkeydown="focusNext(event, 'su-contact')">
+                </div>
+            </div>
 
-        <button
-            class="primary-btn"
-            onclick="doLogin()"
-        >
-            Log In
+            <div class="field" style="margin-top: 14px;">
+                <label>Phone or Email</label>
+                <div class="input-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </span>
+                    <input id="su-contact" placeholder="09123456789 or name@example.com" onkeydown="focusNext(event, 'su-pw')">
+                </div>
+            </div>
+
+            <div class="field" style="margin-top: 14px;">
+                <label>Password</label>
+                <div class="input-wrap password-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </span>
+                    <input id="su-pw" type="password" placeholder="At least 6 characters" onkeydown="focusNext(event, 'su-pw2')">
+                    <button type="button" onclick="togglePw('su-pw', this)">👁️</button>
+                </div>
+            </div>
+
+            <div class="field" style="margin-top: 14px;">
+                <label>Confirm Password</label>
+                <div class="input-wrap password-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </span>
+                    <input id="su-pw2" type="password" placeholder="Re-type password" onkeydown="submitOnEnter(event, doSignup)">
+                    <button type="button" onclick="togglePw('su-pw2', this)">👁️</button>
+                </div>
+            </div>
+
+            <button type="button" class="primary-btn" onclick="doSignup()">Create Account</button>
+        </div>
+
+        <!-- ================= FORGOT PASSWORD ================= -->
+        <div id="forgot-fields" style="display:none;">
+            <div class="reset-box">
+                <strong>Password Reset</strong>
+                <p>Enter your registered phone or email along with your new password.</p>
+            </div>
+
+            <div class="field">
+                <label>Phone or Email</label>
+                <div class="input-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </span>
+                    <input id="fp-contact" placeholder="Registered phone or email" onkeydown="focusNext(event, 'fp-pw')">
+                </div>
+            </div>
+
+            <div class="field" style="margin-top: 14px;">
+                <label>New Password</label>
+                <div class="input-wrap password-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </span>
+                    <input id="fp-pw" type="password" placeholder="At least 6 characters" onkeydown="focusNext(event, 'fp-pw2')">
+                    <button type="button" onclick="togglePw('fp-pw', this)">👁️</button>
+                </div>
+            </div>
+
+            <div class="field" style="margin-top: 14px;">
+                <label>Confirm New Password</label>
+                <div class="input-wrap password-wrap">
+                    <span class="field-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </span>
+                    <input id="fp-pw2" type="password" placeholder="Confirm password" onkeydown="submitOnEnter(event, doForgotPassword)">
+                    <button type="button" onclick="togglePw('fp-pw2', this)">👁️</button>
+                </div>
+            </div>
+
+            <button type="button" class="primary-btn" onclick="doForgotPassword()">Reset Password</button>
+
+            <div style="text-align: center; margin-top: 14px;">
+                <button type="button" class="inline-link" onclick="setAuthTab('login')">← Back to Sign In</button>
+            </div>
+        </div>
+
+        <!-- ================= GUEST ACCESS ================= -->
+        <button type="button" class="guest-btn" onclick="guestMode()">
+            Continue as Guest (Browse Only)
         </button>
-
-
-        <button
-            class="guest-btn"
-            onclick="guestMode()"
-        >
-            👤 Continue as Guest
-        </button>
-
 
         <p class="auth-note">
-            Guest Mode lets you browse reports,
-            but you must log in to submit or
-            manage your own reports.
+            Guest mode allows you to browse and view reports. Creating or managing reports requires an account.
         </p>
-
     </div>
 
-
-    <!-- SIGN UP -->
-
-    <div
-        id="signup-fields"
-        style="display:none"
-    >
-
-        <div class="field">
-
-            <label>
-                Name <em>*</em>
-            </label>
-
-            <input
-                id="su-name"
-                class="auth-input"
-                placeholder="Your full name"
-                onkeydown="focusNext(event,'su-contact')"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Phone Number or Email <em>*</em>
-            </label>
-
-            <input
-                id="su-contact"
-                class="auth-input"
-                placeholder="e.g. 09123456789 or you@example.com"
-                onkeydown="focusNext(event,'su-pw')"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Password <em>*</em>
-            </label>
-
-            <div class="password-wrap">
-
-                <input
-                    id="su-pw"
-                    class="auth-input"
-                    type="password"
-                    placeholder="Choose a password"
-                    onkeydown="focusNext(event,'su-pw2')"
-                >
-
-                <button
-                    type="button"
-                    onclick="togglePw('su-pw',this)"
-                >
-                    👁️
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Confirm Password <em>*</em>
-            </label>
-
-            <div class="password-wrap">
-
-                <input
-                    id="su-pw2"
-                    class="auth-input"
-                    type="password"
-                    placeholder="Re-enter password"
-                    onkeydown="submitOnEnter(event,doSignup)"
-                >
-
-                <button
-                    type="button"
-                    onclick="togglePw('su-pw2',this)"
-                >
-                    👁️
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="primary-btn"
-            onclick="doSignup()"
-        >
-            Create Account
-        </button>
-
-
-        <p class="auth-note">
-
-            Already have an account?
-
-            <button
-                class="inline-link"
-                onclick="setAuthTab('login')"
-            >
-                Log in
-            </button>
-
-        </p>
-
-    </div>
-
-
-    <!-- FORGOT -->
-
-    <div
-        id="forgot-fields"
-        style="display:none"
-    >
-
-        <div class="reset-box">
-
-            🔐
-
-            <strong>
-                Reset your password
-            </strong>
-
-            <p>
-                Enter your registered phone number
-                or email and choose a new password.
-            </p>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Phone Number or Email <em>*</em>
-            </label>
-
-            <input
-                id="fp-contact"
-                class="auth-input"
-                placeholder="Your registered phone/email"
-                onkeydown="focusNext(event,'fp-pw')"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                New Password <em>*</em>
-            </label>
-
-            <div class="password-wrap">
-
-                <input
-                    id="fp-pw"
-                    class="auth-input"
-                    type="password"
-                    placeholder="Choose a new password"
-                    onkeydown="focusNext(event,'fp-pw2')"
-                >
-
-                <button
-                    type="button"
-                    onclick="togglePw('fp-pw',this)"
-                >
-                    👁️
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                Confirm New Password <em>*</em>
-            </label>
-
-            <div class="password-wrap">
-
-                <input
-                    id="fp-pw2"
-                    class="auth-input"
-                    type="password"
-                    placeholder="Re-enter new password"
-                    onkeydown="submitOnEnter(event,doForgotPassword)"
-                >
-
-                <button
-                    type="button"
-                    onclick="togglePw('fp-pw2',this)"
-                >
-                    👁️
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="primary-btn"
-            onclick="doForgotPassword()"
-        >
-            Reset Password
-        </button>
-
-
-        <p class="auth-note">
-
-            Remember your password?
-
-            <button
-                class="inline-link"
-                onclick="setAuthTab('login')"
-            >
-                Back to Log In
-            </button>
-
-        </p>
-
-    </div>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
-
-
-<script src="script.js"></script>
-
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check URL parameter to switch to Signup if directed via Add Account
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("add") === "1") {
+            setAuthTab("signup");
+        }
+    </script>
 </body>
 </html>
