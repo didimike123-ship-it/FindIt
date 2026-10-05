@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FindIt — Report Item</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt — Report Item</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="app">
 
     <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar">
-
         <div class="brand">
             <div class="brand-icon">
-                <!-- SVG Icon (Diamond shape) -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,7 +41,6 @@
 
         <div class="sidebar-art">
             <div class="box-magnify-wrapper">
-                <!-- Box & Magnifying Glass Illustration -->
                 <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
                     <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
@@ -61,17 +56,14 @@
                 to find what matters."
             </p>
         </div>
-
     </aside>
 
     <!-- ================= MAIN ================= -->
     <main class="main">
-
         <header class="topbar">
             <h1 class="topbar-title">Report Item</h1>
-
             <div class="profile-wrap">
-                <button class="profile-btn" onclick="toggleProfileMenu()">
+                <button type="button" class="profile-btn" onclick="toggleProfileMenu()">
                     <div class="avatar" id="top-avatar">GU</div>
                     <div class="user-info">
                         <small>Welcome,</small>
@@ -79,17 +71,15 @@
                     </div>
                     <span class="user-arrow">⌄</span>
                 </button>
-
                 <div class="profile-menu" id="profile-menu">
-                    <button onclick="addAccount()"><span>＋</span> Add Account</button>
+                    <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
                     <div class="profile-divider"></div>
-                    <button class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
+                    <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
                 </div>
             </div>
         </header>
 
         <section class="page">
-            
             <div id="guest-report-warning" class="warning" style="display:none">
                 <span>♟</span>
                 <div>
@@ -99,30 +89,42 @@
             </div>
 
             <div class="form-card">
-                <!-- LOST / FOUND -->
                 <div class="type-switch">
-                    <button id="lost-tab" class="type-btn lost active" onclick="setType('lost')">
+                    <button type="button" id="lost-tab" class="type-btn lost active" onclick="setType('lost')">
                         🔴 🎒 I Lost Something
                     </button>
-                    <button id="found-tab" class="type-btn found" onclick="setType('found')">
+                    <button type="button" id="found-tab" class="type-btn found" onclick="setType('found')">
                         🟢 🎁 I Found Something
                     </button>
                 </div>
 
                 <div class="form-grid">
-
+                    <!-- Item Name -->
                     <div class="field full">
                         <label>Item Name <em>*</em></label>
                         <div class="input-wrap">
-                            <span>🏷</span>
+                            <span class="field-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                </svg>
+                            </span>
                             <input id="item-title" placeholder="e.g. Black Samsung Galaxy S24">
                         </div>
                     </div>
 
+                    <!-- Category -->
                     <div class="field">
                         <label>Category <em>*</em></label>
                         <div class="input-wrap">
-                            <span>▦</span>
+                            <span class="field-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </span>
                             <select id="item-category">
                                 <option value="">Select category</option>
                                 <option>Phone</option>
@@ -136,47 +138,79 @@
                         </div>
                     </div>
 
-                    <!-- Dynamic Date Label -->
+                    <!-- Date -->
                     <div class="field">
                         <label><span id="label-date">Lost Date</span> <em>*</em></label>
                         <div class="input-wrap">
-                            <span>▣</span>
+                            <span class="field-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </span>
                             <input id="item-date" type="date">
                         </div>
                     </div>
 
-                    <!-- Dynamic Location Label -->
+                    <!-- Location -->
                     <div class="field full">
                         <label><span id="label-location">Lost Location</span> <em>*</em></label>
                         <div class="input-wrap">
-                            <span>📍</span>
+                            <span class="field-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </span>
                             <input id="item-location" placeholder="e.g. Library 2nd Floor">
                         </div>
                     </div>
 
-                    <!-- Contact Info Field -->
+                    <!-- Contact Info -->
                     <div class="field full">
                         <label>Contact Info <em>*</em></label>
                         <div class="input-wrap">
-                            <span>📞</span>
+                            <span class="field-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </span>
                             <input id="item-contact" placeholder="e.g. 09123456789 or email@example.com">
                         </div>
                     </div>
 
+                    <!-- Description -->
                     <div class="field full">
                         <label>Description <em>*</em></label>
                         <div class="textarea-wrap">
-                            <span>▤</span>
+                            <span class="field-icon textarea-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </span>
                             <textarea id="item-description" maxlength="500" placeholder="Describe the item, color, brand, unique marks, contents, etc." oninput="updateDescriptionCount()"></textarea>
                             <small id="description-count">0/500</small>
                         </div>
                     </div>
 
+                    <!-- Photo Upload -->
                     <div class="field full">
                         <label>Photo</label>
                         <label class="upload-box" for="item-photo">
                             <div id="upload-prompt" class="upload-prompt">
-                                <div>🖼️</div>
+                                <div class="upload-icon">
+                                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4657ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
                                 <strong>Click to upload a photo</strong>
                                 <small>PNG, JPG up to 5MB</small>
                             </div>
@@ -184,14 +218,12 @@
                             <input id="item-photo" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewPhoto(this)">
                         </label>
                     </div>
-
                 </div>
 
-                <button class="primary-btn" onclick="submitItem()">
+                <button type="button" class="primary-btn" onclick="submitItem()">
                     ➤ &nbsp; Submit Report
                 </button>
             </div>
-
         </section>
     </main>
 </div>
@@ -199,6 +231,5 @@
 <div id="toast" class="toast"></div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
