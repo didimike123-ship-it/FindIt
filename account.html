@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FindIt — My Account</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt — My Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="app">
 
     <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar">
-
         <div class="brand">
             <div class="brand-icon">
-                <!-- SVG Icon (Diamond shape) -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -45,7 +41,6 @@
 
         <div class="sidebar-art">
             <div class="box-magnify-wrapper">
-                <!-- Box & Magnifying Glass Illustration -->
                 <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
                     <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
@@ -61,17 +56,14 @@
                 to find what matters."
             </p>
         </div>
-
     </aside>
 
     <!-- ================= MAIN ================= -->
     <main class="main">
-
         <header class="topbar">
             <h1 class="topbar-title">My Account</h1>
-
             <div class="profile-wrap">
-                <button class="profile-btn" onclick="toggleProfileMenu()">
+                <button type="button" class="profile-btn" onclick="toggleProfileMenu()">
                     <div class="avatar" id="top-avatar">GU</div>
                     <div class="user-info">
                         <small>Welcome,</small>
@@ -79,17 +71,15 @@
                     </div>
                     <span class="user-arrow">⌄</span>
                 </button>
-
                 <div class="profile-menu" id="profile-menu">
-                    <button onclick="addAccount()"><span>＋</span> Add Account</button>
+                    <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
                     <div class="profile-divider"></div>
-                    <button class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
+                    <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
                 </div>
             </div>
         </header>
 
         <section class="page">
-
             <div class="account-head">
                 <div>
                     <h1 id="account-name">Guest User</h1>
@@ -97,6 +87,7 @@
                 </div>
             </div>
 
+            <!-- ACCOUNT STATS -->
             <div class="account-stats">
                 <div>
                     <span class="red-dot"></span> Lost Reports
@@ -117,9 +108,7 @@
             </div>
 
             <div id="account-history" class="report-grid"></div>
-
         </section>
-
     </main>
 </div>
 
@@ -131,6 +120,5 @@
 <div id="toast" class="toast"></div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
