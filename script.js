@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - SHARED JAVASCRIPT (UPDATED)
+   FINDIT - SHARED JAVASCRIPT (CLEAN & COMPLETE)
 ========================================= */
 
 const ICONS = {
@@ -446,7 +446,7 @@ function submitItem() {
 }
 
 /* =========================================
-   ACCOUNT (FIXED COUNT RECOVERED CALCULATION)
+   ACCOUNT (RECOVERED CALCULATION FIXED)
 ========================================= */
 
 function initAccount() {
@@ -487,7 +487,6 @@ function initAccount() {
 
     const mine = items.filter(x => x.ownerId === session.id);
     
-    // ပြင်ဆင်ချက်: Recovered မဖြစ်သေးသော report များကိုသာ Lost/Found စာရင်းတွင် ရေတွက်မည်
     const lost = mine.filter(x => x.type === "lost" && x.recovered !== true).length;
     const found = mine.filter(x => x.type === "found" && x.recovered !== true).length;
     const recovered = mine.filter(x => x.recovered === true).length;
@@ -653,7 +652,7 @@ function setupDashboardSearch() {
 }
 
 /* =========================================
-   MODAL
+   MODAL & CLOSE OUTER
 ========================================= */
 
 function openModal(id) {
@@ -673,6 +672,12 @@ function closeModal() {
     if (modal) {
         modal.classList.remove("show");
         modal.style.display = "";
+    }
+}
+
+function closeOuter(event) {
+    if (event.target.id === "item-modal") {
+        closeModal();
     }
 }
 
