@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FindIt — Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindIt — Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="app">
 
     <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar">
-
         <div class="brand">
-            <div class="brand-icon">◆</div>
+            <div class="brand-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
             <div>
                 <div class="brand-name">Find<span>It</span></div>
                 <div class="brand-sub">Lost &amp; Found System</div>
@@ -38,7 +41,6 @@
 
         <div class="sidebar-art">
             <div class="box-magnify-wrapper">
-                <!-- Box & Magnifying Glass Illustration -->
                 <svg class="illustration-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 60 L50 45 L80 60 L80 80 L50 95 L20 80 Z" fill="#d8a880"/>
                     <path d="M20 60 L50 45 L50 95 L20 80 Z" fill="#c4936a"/>
@@ -54,13 +56,10 @@
                 to find what matters."
             </p>
         </div>
-
     </aside>
 
     <!-- ================= MAIN ================= -->
     <main class="main">
-
-        <!-- ================= TOP BAR ================= -->
         <header class="topbar">
             <h1 class="topbar-title">Home page</h1>
             <div class="profile-wrap">
@@ -80,10 +79,7 @@
             </div>
         </header>
 
-        <!-- ================= PAGE ================= -->
         <section class="page">
-
-            <!-- HERO -->
             <div class="hero">
                 <div>
                     <h2>Welcome to Find It! 👋</h2>
@@ -92,10 +88,8 @@
                 <div class="hero-art">🔎</div>
             </div>
 
-            <!-- ================= STATS (4 Columns) ================= -->
+            <!-- STATS CARDS -->
             <div class="stats">
-
-                <!-- ALL REPORT -->
                 <button type="button" id="filter-all" class="stat-card active-filter" onclick="setDashboardFilter('all')">
                     <div class="stat-icon blue">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
@@ -111,7 +105,6 @@
                     </div>
                 </button>
 
-                <!-- LOST REPORT -->
                 <button type="button" id="filter-lost" class="stat-card" onclick="setDashboardFilter('lost')">
                     <div class="stat-icon red">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
@@ -127,7 +120,6 @@
                     </div>
                 </button>
 
-                <!-- FOUND REPORT -->
                 <button type="button" id="filter-found" class="stat-card" onclick="setDashboardFilter('found')">
                     <div class="stat-icon green">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
@@ -143,7 +135,6 @@
                     </div>
                 </button>
 
-                <!-- RECOVERED REPORT -->
                 <button type="button" id="filter-recovered" class="stat-card" onclick="setDashboardFilter('recovered')">
                     <div class="stat-icon purple">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -158,10 +149,9 @@
                         </svg>
                     </div>
                 </button>
-
             </div>
 
-            <!-- ================= LATEST REPORTS ================= -->
+            <!-- SEARCH & CATEGORIES -->
             <div class="section-head">
                 <h2>Latest Reports</h2>
                 <div class="filters">
@@ -182,14 +172,12 @@
                 </div>
             </div>
 
-            <!-- ================= REPORT LIST ================= -->
             <div id="dashboard-list" class="report-grid"></div>
-
         </section>
     </main>
 </div>
 
-<!-- ================= REPORT DETAIL MODAL ================= -->
+<!-- REPORT DETAIL MODAL -->
 <div id="item-modal" class="modal" onclick="closeOuter(event)">
     <div id="modal-box" class="modal-box"></div>
 </div>
@@ -197,6 +185,5 @@
 <div id="toast" class="toast"></div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
