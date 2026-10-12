@@ -629,7 +629,8 @@ button {
 }
 
 /* =========================================
-   GUEST WARNING BANNER & FORM STYLES
+   GUEST WARNING BANNER & BUTTONS
+   (SIDEBAR ACTIVE COLOR MATCHED)
 ========================================= */
 
 .warning-banner {
@@ -671,34 +672,40 @@ button {
     gap: 10px;
 }
 
+/* Sidebar Active Color (Gradient) အတိုင်း သတ်မှတ်ထားသော ခလုတ်များ */
 .btn-warn-primary {
-    padding: 9px 18px;
+    padding: 10px 22px;
     border: none;
-    border-radius: 8px;
-    background: #ea580c;
+    border-radius: 10px;
+    background: linear-gradient(100deg, #4051f0, #724eec);
     color: #fff;
     font-weight: 700;
     font-size: 13px;
-    transition: 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(64, 81, 240, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn-warn-primary:hover {
-    background: #c2410c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(64, 81, 240, 0.35);
 }
 
 .btn-warn-secondary {
-    padding: 9px 16px;
-    border: 1.5px solid #ea580c;
-    border-radius: 8px;
-    background: #fff;
-    color: #ea580c;
+    padding: 10px 20px;
+    border: 1.5px solid #5a54ee;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #4b52ee;
     font-weight: 700;
     font-size: 13px;
-    transition: 0.2s;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .btn-warn-secondary:hover {
-    background: #fff7ed;
+    background: #f0f2ff;
+    transform: translateY(-2px);
 }
 
 /* Guest ဖြစ်ပါက Form အား နှိပ်မရအောင် ပိတ်ထားမည့် Style */
