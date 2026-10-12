@@ -47,7 +47,7 @@ function setSession(session) {
     localStorage.setItem("findit2_session", JSON.stringify(session));
 }
 
-// Session မရှိပါက Guest အဖြစ် အလိုအလျောက် သတ်မှတ်ပေးခြင်း
+// Session မရှိပါက Guest အဖြစ် အမြဲတမ်း Default သတ်မှတ်ပေးမည်
 function ensureGuestSession() {
     let session = getSession();
     if (!session) {
@@ -163,7 +163,6 @@ function addAccount() {
 
 function logout() {
     localStorage.removeItem("findit2_session");
-    // Logout ပြီးပါက Guest mode သို့ ပြန်လည်ထားရှိကာ Home သို့ ရောက်ရှိမည်
     ensureGuestSession();
     location.href = "index.html";
 }
@@ -384,7 +383,6 @@ function updateDescriptionCount() {
 function submitItem() {
     const session = getSession();
 
-    // Guest ဖြစ်နေပါက တင်ခွင့်မပြုပါ
     if (!session || session.role === "guest") {
         toast("Please Sign In or Sign Up to submit a report.");
         return;
@@ -631,7 +629,7 @@ function setupDashboardSearch() {
 }
 
 /* =========================================
-   MODAL & ITEM ACTIONS
+   MODAL & ACTIONS
 ========================================= */
 
 function openModal(id) {
@@ -845,7 +843,7 @@ function saveEdit(id) {
         closeModal();
         toast("Report updated successfully.");
         renderDashboard();
-        if (location.pathname.endsWith("account.html")) initAccount();
+        if (window.location.href.toLowerCase().includes("account.html")) initAccount();
     }
 
     const input = document.getElementById("edit-photo");
@@ -870,7 +868,7 @@ function markRecovered(id) {
     closeModal();
     toast("Report marked as recovered.");
     renderDashboard();
-    if (location.pathname.endsWith("account.html")) initAccount();
+    if (window.location.href.toLowerCase().includes("account.html")) initAccount();
 }
 
 function deleteItem(id) {
@@ -886,30 +884,32 @@ function deleteItem(id) {
     closeModal();
     toast("Report deleted.");
     renderDashboard();
-    if (location.pathname.endsWith("account.html")) initAccount();
+    if (window.location.href.toLowerCase().includes("account.html")) initAccount();
 }
 
 /* =========================================
-   INITIALIZATION
+   INITIALIZATION (LOGIN REDIRECT လုံးဝမလုပ်ပါ)
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // ဝင်ရောက်လာသည်နှင့် အလိုအလျောက် Guest အကောင့် ဖွင့်ပေးထားမည်
+    // ဝင်ရောက်လာသည်နှင့် အမြဲတမ်း Guest အဖြစ် အရင် သတ်မှတ်ပေးမည်
     const session = ensureGuestSession();
     initProfile();
 
-    const page = location.pathname.split("/").pop();
+    const currentUrl = window.location.href.toLowerCase();
 
-    if (page === "" || page === "index.html") {
+    // Home Page
+    if (currentUrl.includes("index.html") || window.location.pathname.endsWith("/")) {
         setupDashboardSearch();
         setDashboardFilter(dashboardFilter);
     }
 
-    if (page === "report.html") {
+    // Report Item Page
+    if (currentUrl.includes("report.html")) {
         const warning = document.getElementById("guest-report-warning");
         const formCard = document.getElementById("report-form-card");
 
-        // Guest ဖြစ်ပါက Login သို့ redirect မလုပ်ဘဲ Warning Banner ကိုသာ ဖော်ပြပြီး Form အား ပိတ်ထားမည်
+        // Guest ဖြစ်ပါက Login သို့ မပြောင်းဘဲ Warning Banner ကိုသာ ပြသပြီး Form ကို Disable လုပ်မည်
         if (session.role === "guest") {
             if (warning) warning.style.display = "flex";
             if (formCard) formCard.classList.add("guest-disabled");
@@ -931,7 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    if (page === "account.html") {
+    // Account Page
+    if (currentUrl.includes("account.html")) {
         initAccount();
     }
 });
