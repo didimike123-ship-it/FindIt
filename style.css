@@ -1653,3 +1653,31 @@ button {
         align-items: flex-start;
     }
 }
+/* =========================================
+   TOPBAR LOGIN BUTTON (GUEST MODE)
+========================================= */
+
+.topbar-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(100deg, #4051f0, #724eec);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(64, 81, 240, 0.28);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.topbar-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(64, 81, 240, 0.38);
+}
+
+.topbar-login-btn span {
+    font-size: 16px;
+}
