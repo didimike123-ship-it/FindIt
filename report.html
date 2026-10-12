@@ -71,24 +71,26 @@
                     </div>
                     <span class="user-arrow">⌄</span>
                 </button>
-                <div class="profile-menu" id="profile-menu">
-                    <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
-                    <div class="profile-divider"></div>
-                    <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
-                </div>
+                <div class="profile-menu" id="profile-menu"></div>
             </div>
         </header>
 
         <section class="page">
-            <div id="guest-report-warning" class="warning" style="display:none">
-                <span>♟</span>
-                <div>
-                    <strong>Guest Mode is read-only.</strong>
-                    <p>Please log in to submit a Lost or Found report.</p>
+            <!-- GUEST WARNING BANNER (LOGIN / SIGNUP ACTIONS) -->
+            <div id="guest-report-warning" class="warning-banner" style="display:none;">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Sign In or Sign Up Required</strong>
+                    <p>You are currently browsing as a Guest. Please sign in or create an account to submit a report.</p>
+                </div>
+                <div class="warning-actions">
+                    <button type="button" class="btn-warn-primary" onclick="location.href='login.html'">Sign In</button>
+                    <button type="button" class="btn-warn-secondary" onclick="location.href='login.html?add=1'">Sign Up</button>
                 </div>
             </div>
 
-            <div class="form-card">
+            <!-- REPORT FORM -->
+            <div class="form-card" id="report-form-card">
                 <div class="type-switch">
                     <button type="button" id="lost-tab" class="type-btn lost active" onclick="setType('lost')">
                         🔴 🎒 I Lost Something
