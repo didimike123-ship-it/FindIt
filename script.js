@@ -24,7 +24,7 @@ let curType = "lost";
 let dashboardFilter = "all";
 
 /* =========================================
-   STORAGE
+   STORAGE & SESSION MANAGEMENT
 ========================================= */
 
 function save() {
@@ -47,7 +47,7 @@ function setSession(session) {
     localStorage.setItem("findit2_session", JSON.stringify(session));
 }
 
-/* Default Guest Session ဖန်တီးပေးခြင်း */
+// Session မရှိပါက Guest အဖြစ် အလိုအလျောက် သတ်မှတ်ပေးခြင်း
 function ensureGuestSession() {
     let session = getSession();
     if (!session) {
@@ -127,16 +127,24 @@ function initProfile() {
     const session = ensureGuestSession();
     const name = document.getElementById("top-name");
     const avatar = document.getElementById("top-avatar");
-    const profileMenu = document.getElementById("profile-menu");
+    const menu = document.getElementById("profile-menu");
 
     if (name) name.textContent = session.name;
     if (avatar) avatar.textContent = initials(session.name);
 
-    // Guest ဖြစ်လျှင် Profile Menu ထဲတွင် "Sign In / Sign Up" ပြရန်
-    if (profileMenu && session.role === "guest") {
-        profileMenu.innerHTML = `
-            <button type="button" onclick="location.href='login.html'"><span>🔑</span> Sign In / Sign Up</button>
-        `;
+    if (menu) {
+        if (session.role === "guest") {
+            menu.innerHTML = `
+                <button type="button" onclick="location.href='login.html'"><span>🔑</span> Sign In</button>
+                <button type="button" onclick="location.href='login.html?add=1'"><span>＋</span> Sign Up</button>
+            `;
+        } else {
+            menu.innerHTML = `
+                <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
+                <div class="profile-divider"></div>
+                <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
+            `;
+        }
     }
 }
 
@@ -155,8 +163,8 @@ function addAccount() {
 
 function logout() {
     localStorage.removeItem("findit2_session");
-    // Logout လုပ်ပါက Guest mode အနေဖြင့် Home သို့ ပြန်ပို့ပါမည်
-    setSession({ id: "guest", name: "Guest User", contact: "", role: "guest" });
+    // Logout ပြီးပါက Guest mode သို့ ပြန်လည်ထားရှိကာ Home သို့ ရောက်ရှိမည်
+    ensureGuestSession();
     location.href = "index.html";
 }
 
@@ -171,7 +179,7 @@ document.addEventListener("click", event => {
 });
 
 /* =========================================
-   LOGIN & SIGN UP & FORGOT
+   AUTHENTICATION LOGIC
 ========================================= */
 
 function doLogin() {
@@ -193,11 +201,7 @@ function doLogin() {
     }
 
     setSession({ id: user.id, name: user.name, contact: user.contact, role: "user" });
-    
-    // Redirect query ပါလာပါက မူလသွားချင်သည့် page ဆီ ပို့ပေးမည် (ဥပမာ report.html)
-    const params = new URLSearchParams(window.location.search);
-    const redirect = params.get("redirect") || "index.html";
-    location.href = redirect;
+    location.href = "index.html";
 }
 
 function doSignup() {
@@ -230,10 +234,7 @@ function doSignup() {
     saveUsers(users);
 
     setSession({ id: user.id, name: user.name, contact: user.contact, role: "user" });
-
-    const params = new URLSearchParams(window.location.search);
-    const redirect = params.get("redirect") || "index.html";
-    location.href = redirect;
+    location.href = "index.html";
 }
 
 function doForgotPassword() {
@@ -301,7 +302,7 @@ function guestMode() {
 }
 
 /* =========================================
-   REPORT TYPE & PREVIEWS
+   REPORT TYPE & MEDIA HANDLING
 ========================================= */
 
 function setType(type) {
@@ -383,12 +384,9 @@ function updateDescriptionCount() {
 function submitItem() {
     const session = getSession();
 
-    // အကယ်၍ Guest အနေဖြင့် Form စာမျက်နှာသို့ ရောက်နေပါက တင်ခွင့်မပြုဘဲ Login ဆီသို့ ပို့မည်
+    // Guest ဖြစ်နေပါက တင်ခွင့်မပြုပါ
     if (!session || session.role === "guest") {
-        toast("Please log in to submit a report.");
-        setTimeout(() => {
-            location.href = "login.html?redirect=report.html";
-        }, 800);
+        toast("Please Sign In or Sign Up to submit a report.");
         return;
     }
 
@@ -444,31 +442,37 @@ function submitItem() {
 
 function initAccount() {
     const session = ensureGuestSession();
+    const name = document.getElementById("account-name");
+    const contact = document.getElementById("account-contact");
+    const history = document.getElementById("account-history");
 
-    // Guest ဖြစ်လျှင် My Account စာမျက်နှာတွင် စီမံခွင့်မရှိဘဲ Login ဝင်ရန် ခလုတ်ပြပေးမည်
     if (session.role === "guest") {
-        const name = document.getElementById("account-name");
-        const contact = document.getElementById("account-contact");
         if (name) name.textContent = "Guest User";
-        if (contact) contact.textContent = "You are currently browsing as a guest.";
+        if (contact) contact.textContent = "Browsing in guest mode";
 
-        const history = document.getElementById("account-history");
+        const lost = document.getElementById("my-lost");
+        const found = document.getElementById("my-found");
+        const recovered = document.getElementById("my-recovered");
+
+        if (lost) lost.textContent = "0";
+        if (found) found.textContent = "0";
+        if (recovered) recovered.textContent = "0";
+
         if (history) {
             history.innerHTML = `
                 <div class="empty">
-                    <h3>Sign in required</h3>
+                    <h3>Account Required</h3>
                     <p>Please log in or sign up to view and manage your reports.</p>
-                    <button type="button" class="primary-btn" style="width: 200px; margin: 15px auto 0;" onclick="location.href='login.html?redirect=account.html'">
-                        🔑 Sign In / Sign Up
-                    </button>
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                        <button type="button" class="btn-warn-primary" onclick="location.href='login.html'">Sign In</button>
+                        <button type="button" class="btn-warn-secondary" onclick="location.href='login.html?add=1'">Sign Up</button>
+                    </div>
                 </div>
             `;
         }
         return;
     }
 
-    const name = document.getElementById("account-name");
-    const contact = document.getElementById("account-contact");
     if (name) name.textContent = session.name;
     if (contact) contact.textContent = session.contact;
 
@@ -485,12 +489,11 @@ function initAccount() {
     if (foundCount) foundCount.textContent = found;
     if (recoveredCount) recoveredCount.textContent = recovered;
 
-    const box = document.getElementById("account-history");
-    if (!box) return;
+    if (!history) return;
+    history.innerHTML = "";
 
-    box.innerHTML = "";
     if (!mine.length) {
-        box.innerHTML = `
+        history.innerHTML = `
             <div class="empty">
                 <h3>No Reports Yet</h3>
                 <p>Your reports will appear here.</p>
@@ -499,12 +502,12 @@ function initAccount() {
         return;
     }
     mine.forEach(item => {
-        box.innerHTML += createCard(item);
+        history.innerHTML += createCard(item);
     });
 }
 
 /* =========================================
-   REPORT CARDS & DASHBOARD
+   REPORT CARD & DASHBOARD
 ========================================= */
 
 function createCard(item) {
@@ -628,7 +631,7 @@ function setupDashboardSearch() {
 }
 
 /* =========================================
-   MODAL DIALOG
+   MODAL & ITEM ACTIONS
 ========================================= */
 
 function openModal(id) {
@@ -729,25 +732,192 @@ function renderModalView(item) {
     `;
 }
 
+function editItem(id) {
+    const session = getSession();
+    const item = items.find(x => x.id === id);
+
+    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
+        toast("You can only edit your own report.");
+        return;
+    }
+
+    const box = document.getElementById("modal-box");
+    if (!box) return;
+
+    box.innerHTML = `
+        <div class="edit-box">
+            <button class="edit-close" onclick="closeModal()">×</button>
+            <h2>Edit Report</h2>
+            <div class="edit-field">
+                <label>Item Name</label>
+                <input id="edit-title" class="input" value="${esc(item.title)}">
+            </div>
+            <div class="edit-field">
+                <label>Category</label>
+                <select id="edit-category" class="input">
+                    <option>Phone</option>
+                    <option>Wallet</option>
+                    <option>Keys</option>
+                    <option>ID Card</option>
+                    <option>Books</option>
+                    <option>Electronics</option>
+                    <option>Others</option>
+                </select>
+            </div>
+            <div class="edit-field">
+                <label>Date</label>
+                <input id="edit-date" class="input" type="date" value="${esc(item.date)}">
+            </div>
+            <div class="edit-field">
+                <label>Location</label>
+                <input id="edit-location" class="input" value="${esc(item.location)}">
+            </div>
+            <div class="edit-field">
+                <label>Contact Info</label>
+                <input id="edit-contact" class="input" value="${esc(item.contactInfo || "")}">
+            </div>
+            <div class="edit-field">
+                <label>Description</label>
+                <textarea id="edit-description" class="input">${esc(item.description)}</textarea>
+            </div>
+            <label class="edit-photo-btn" for="edit-photo">📷 Change Photo</label>
+            <input id="edit-photo" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewEditPhoto(this)" hidden>
+            <div id="edit-photo-preview" class="edit-photo-preview">
+                ${item.photo ? `<img src="${esc(item.photo)}">` : ""}
+            </div>
+            <button class="primary-btn" onclick="saveEdit('${item.id}')">✓ Save Changes</button>
+        </div>
+    `;
+
+    const category = document.getElementById("edit-category");
+    if (category) category.value = item.category;
+
+    const modal = document.getElementById("item-modal");
+    if (modal) modal.classList.add("show");
+}
+
+function previewEditPhoto(input) {
+    const box = document.getElementById("edit-photo-preview");
+    if (!input?.files?.[0]) return;
+    const file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+        toast("Photo must be smaller than 5MB.");
+        input.value = "";
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = event => {
+        if (box) box.innerHTML = `<img src="${event.target.result}">`;
+    };
+    reader.readAsDataURL(file);
+}
+
+function saveEdit(id) {
+    const session = getSession();
+    const index = items.findIndex(x => x.id === id);
+
+    if (!session || session.role === "guest" || index === -1 || items[index].ownerId !== session.id) {
+        toast("You cannot edit this report.");
+        return;
+    }
+
+    const title = document.getElementById("edit-title")?.value.trim();
+    const category = document.getElementById("edit-category")?.value;
+    const date = document.getElementById("edit-date")?.value;
+    const locationValue = document.getElementById("edit-location")?.value.trim();
+    const contactInfo = document.getElementById("edit-contact")?.value.trim();
+    const description = document.getElementById("edit-description")?.value.trim();
+
+    if (!title || !category || !date || !locationValue || !contactInfo || !description) {
+        toast("Please fill all fields.");
+        return;
+    }
+
+    function finish(photoData) {
+        items[index].title = title;
+        items[index].category = category;
+        items[index].date = date;
+        items[index].location = locationValue;
+        items[index].contactInfo = contactInfo;
+        items[index].description = description;
+        if (photoData !== undefined) items[index].photo = photoData;
+        save();
+        closeModal();
+        toast("Report updated successfully.");
+        renderDashboard();
+        if (location.pathname.endsWith("account.html")) initAccount();
+    }
+
+    const input = document.getElementById("edit-photo");
+    if (input?.files?.[0]) {
+        const reader = new FileReader();
+        reader.onload = event => finish(event.target.result);
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        finish();
+    }
+}
+
+function markRecovered(id) {
+    const session = getSession();
+    const item = items.find(x => x.id === id);
+    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
+        toast("You cannot manage this report.");
+        return;
+    }
+    item.recovered = true;
+    save();
+    closeModal();
+    toast("Report marked as recovered.");
+    renderDashboard();
+    if (location.pathname.endsWith("account.html")) initAccount();
+}
+
+function deleteItem(id) {
+    const session = getSession();
+    const item = items.find(x => x.id === id);
+    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
+        toast("You cannot delete this report.");
+        return;
+    }
+    if (!confirm("Delete this report?")) return;
+    items = items.filter(x => x.id !== id);
+    save();
+    closeModal();
+    toast("Report deleted.");
+    renderDashboard();
+    if (location.pathname.endsWith("account.html")) initAccount();
+}
+
 /* =========================================
-   PAGE INITIALIZATION & AUTH GUARD
+   INITIALIZATION
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Session မရှိသေးပါက Default Guest Session ကို သတ်မှတ်ပေးပါမည်
+    // ဝင်ရောက်လာသည်နှင့် အလိုအလျောက် Guest အကောင့် ဖွင့်ပေးထားမည်
     const session = ensureGuestSession();
     initProfile();
 
     const page = location.pathname.split("/").pop();
 
-    // 💡 အဓိက လိုအပ်ချက်- Report Item စာမျက်နှာသို့ Guest အနေဖြင့် ဝင်ရောက်လာပါက Login Page သို့ တိုက်ရိုက် လမ်းကြောင်းလွှဲပါမည်
-    if (page === "report.html") {
-        if (!session || session.role === "guest") {
-            // မူလသွားလိုသော report.html link ကိုပါ redirect query အဖြစ် သိမ်းထားပေးပါမည်
-            location.href = "login.html?redirect=report.html";
-            return;
-        }
+    if (page === "" || page === "index.html") {
+        setupDashboardSearch();
+        setDashboardFilter(dashboardFilter);
+    }
 
+    if (page === "report.html") {
+        const warning = document.getElementById("guest-report-warning");
+        const formCard = document.getElementById("report-form-card");
+
+        // Guest ဖြစ်ပါက Login သို့ redirect မလုပ်ဘဲ Warning Banner ကိုသာ ဖော်ပြပြီး Form အား ပိတ်ထားမည်
+        if (session.role === "guest") {
+            if (warning) warning.style.display = "flex";
+            if (formCard) formCard.classList.add("guest-disabled");
+        } else {
+            if (warning) warning.style.display = "none";
+            if (formCard) formCard.classList.remove("guest-disabled");
+        }
+        
         setType(curType);
 
         const date = document.getElementById("item-date");
@@ -759,11 +929,6 @@ document.addEventListener("DOMContentLoaded", () => {
             description.addEventListener("input", updateDescriptionCount);
             updateDescriptionCount();
         }
-    }
-
-    if (page === "" || page === "index.html") {
-        setupDashboardSearch();
-        setDashboardFilter(dashboardFilter);
     }
 
     if (page === "account.html") {
