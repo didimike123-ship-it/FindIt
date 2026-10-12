@@ -701,7 +701,7 @@ button {
     background: #fff7ed;
 }
 
-/* Guest ဖြစ်ပါက Form ကို Disable လုပ်ထားမည့် Style */
+/* Guest ဖြစ်ပါက Form အား နှိပ်မရအောင် ပိတ်ထားမည့် Style */
 .form-card.guest-disabled {
     opacity: 0.55;
     pointer-events: none;
