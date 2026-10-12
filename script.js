@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - SHARED JAVASCRIPT (CLEAN & COMPLETE)
+   FINDIT - SHARED JAVASCRIPT
 ========================================= */
 
 const ICONS = {
@@ -45,6 +45,16 @@ function getSession() {
 
 function setSession(session) {
     localStorage.setItem("findit2_session", JSON.stringify(session));
+}
+
+/* Default Guest Session ဖန်တီးပေးခြင်း */
+function ensureGuestSession() {
+    let session = getSession();
+    if (!session) {
+        session = { id: "guest", name: "Guest User", contact: "", role: "guest" };
+        setSession(session);
+    }
+    return session;
 }
 
 /* =========================================
@@ -114,12 +124,20 @@ function togglePw(inputId, btn) {
 ========================================= */
 
 function initProfile() {
-    const session = getSession();
-    if (!session) return;
+    const session = ensureGuestSession();
     const name = document.getElementById("top-name");
     const avatar = document.getElementById("top-avatar");
+    const profileMenu = document.getElementById("profile-menu");
+
     if (name) name.textContent = session.name;
     if (avatar) avatar.textContent = initials(session.name);
+
+    // Guest ဖြစ်လျှင် Profile Menu ထဲတွင် "Sign In / Sign Up" ပြရန်
+    if (profileMenu && session.role === "guest") {
+        profileMenu.innerHTML = `
+            <button type="button" onclick="location.href='login.html'"><span>🔑</span> Sign In / Sign Up</button>
+        `;
+    }
 }
 
 function toggleProfileMenu() {
@@ -137,7 +155,9 @@ function addAccount() {
 
 function logout() {
     localStorage.removeItem("findit2_session");
-    location.href = "login.html";
+    // Logout လုပ်ပါက Guest mode အနေဖြင့် Home သို့ ပြန်ပို့ပါမည်
+    setSession({ id: "guest", name: "Guest User", contact: "", role: "guest" });
+    location.href = "index.html";
 }
 
 document.addEventListener("click", event => {
@@ -151,7 +171,7 @@ document.addEventListener("click", event => {
 });
 
 /* =========================================
-   LOGIN
+   LOGIN & SIGN UP & FORGOT
 ========================================= */
 
 function doLogin() {
@@ -173,12 +193,12 @@ function doLogin() {
     }
 
     setSession({ id: user.id, name: user.name, contact: user.contact, role: "user" });
-    location.href = "index.html";
+    
+    // Redirect query ပါလာပါက မူလသွားချင်သည့် page ဆီ ပို့ပေးမည် (ဥပမာ report.html)
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect") || "index.html";
+    location.href = redirect;
 }
-
-/* =========================================
-   SIGN UP
-========================================= */
 
 function doSignup() {
     const name = document.getElementById("su-name")?.value.trim();
@@ -210,12 +230,11 @@ function doSignup() {
     saveUsers(users);
 
     setSession({ id: user.id, name: user.name, contact: user.contact, role: "user" });
-    location.href = "index.html";
-}
 
-/* =========================================
-   FORGOT PASSWORD
-========================================= */
+    const params = new URLSearchParams(window.location.search);
+    const redirect = params.get("redirect") || "index.html";
+    location.href = redirect;
+}
 
 function doForgotPassword() {
     const contact = document.getElementById("fp-contact")?.value.trim();
@@ -251,10 +270,6 @@ function doForgotPassword() {
     }, 800);
 }
 
-/* =========================================
-   AUTH TAB
-========================================= */
-
 function setAuthTab(tab) {
     const login = document.getElementById("login-fields");
     const signup = document.getElementById("signup-fields");
@@ -280,30 +295,13 @@ function setAuthTab(tab) {
     }
 }
 
-/* =========================================
-   GUEST MODE
-========================================= */
-
 function guestMode() {
-    setSession({ id: "guest", name: "Guest", contact: "", role: "guest" });
+    setSession({ id: "guest", name: "Guest User", contact: "", role: "guest" });
     location.href = "index.html";
 }
 
 /* =========================================
-   LOGIN PROTECTION
-========================================= */
-
-function requireLogin() {
-    const session = getSession();
-    if (!session) {
-        location.href = "login.html";
-        return null;
-    }
-    return session;
-}
-
-/* =========================================
-   REPORT TYPE
+   REPORT TYPE & PREVIEWS
 ========================================= */
 
 function setType(type) {
@@ -324,10 +322,6 @@ function setType(type) {
     }
 }
 
-/* =========================================
-   PHOTO PREVIEW
-========================================= */
-
 function previewPhoto(input) {
     const preview = document.getElementById("photo-preview");
     const prompt = document.getElementById("upload-prompt");
@@ -347,7 +341,6 @@ function previewPhoto(input) {
     reader.onload = event => {
         prompt.style.display = "none";
         preview.style.display = "block";
-        
         preview.innerHTML = `
             <div class="photo-preview-inside-wrapper">
                 <img src="${event.target.result}" alt="Selected photo">
@@ -375,10 +368,6 @@ function removePhoto(event) {
     if (prompt) prompt.style.display = "flex";
 }
 
-/* =========================================
-   REPORT PAGE
-========================================= */
-
 function updateDescriptionCount() {
     const input = document.getElementById("item-description");
     const count = document.getElementById("description-count");
@@ -394,8 +383,12 @@ function updateDescriptionCount() {
 function submitItem() {
     const session = getSession();
 
+    // အကယ်၍ Guest အနေဖြင့် Form စာမျက်နှာသို့ ရောက်နေပါက တင်ခွင့်မပြုဘဲ Login ဆီသို့ ပို့မည်
     if (!session || session.role === "guest") {
         toast("Please log in to submit a report.");
+        setTimeout(() => {
+            location.href = "login.html?redirect=report.html";
+        }, 800);
         return;
     }
 
@@ -446,47 +439,40 @@ function submitItem() {
 }
 
 /* =========================================
-   ACCOUNT (RECOVERED CALCULATION FIXED)
+   ACCOUNT PAGE
 ========================================= */
 
 function initAccount() {
-    const session = getSession();
-    if (!session) {
-        location.href = "login.html";
-        return;
-    }
+    const session = ensureGuestSession();
 
-    const name = document.getElementById("account-name");
-    const contact = document.getElementById("account-contact");
-
-    if (name) name.textContent = session.name;
-    if (contact) {
-        contact.textContent = session.role === "guest" ? "Guest Account" : session.contact;
-    }
-
+    // Guest ဖြစ်လျှင် My Account စာမျက်နှာတွင် စီမံခွင့်မရှိဘဲ Login ဝင်ရန် ခလုတ်ပြပေးမည်
     if (session.role === "guest") {
-        const lost = document.getElementById("my-lost");
-        const found = document.getElementById("my-found");
-        const recovered = document.getElementById("my-recovered");
+        const name = document.getElementById("account-name");
+        const contact = document.getElementById("account-contact");
+        if (name) name.textContent = "Guest User";
+        if (contact) contact.textContent = "You are currently browsing as a guest.";
+
         const history = document.getElementById("account-history");
-
-        if (lost) lost.textContent = "0";
-        if (found) found.textContent = "0";
-        if (recovered) recovered.textContent = "0";
-
         if (history) {
             history.innerHTML = `
                 <div class="empty">
-                    <h3>Guest Mode</h3>
-                    <p>Log in to view and manage your reports.</p>
+                    <h3>Sign in required</h3>
+                    <p>Please log in or sign up to view and manage your reports.</p>
+                    <button type="button" class="primary-btn" style="width: 200px; margin: 15px auto 0;" onclick="location.href='login.html?redirect=account.html'">
+                        🔑 Sign In / Sign Up
+                    </button>
                 </div>
             `;
         }
         return;
     }
 
+    const name = document.getElementById("account-name");
+    const contact = document.getElementById("account-contact");
+    if (name) name.textContent = session.name;
+    if (contact) contact.textContent = session.contact;
+
     const mine = items.filter(x => x.ownerId === session.id);
-    
     const lost = mine.filter(x => x.type === "lost" && x.recovered !== true).length;
     const found = mine.filter(x => x.type === "found" && x.recovered !== true).length;
     const recovered = mine.filter(x => x.recovered === true).length;
@@ -518,7 +504,7 @@ function initAccount() {
 }
 
 /* =========================================
-   CREATE REPORT CARD
+   REPORT CARDS & DASHBOARD
 ========================================= */
 
 function createCard(item) {
@@ -561,21 +547,12 @@ function createCard(item) {
     `;
 }
 
-/* =========================================
-   DASHBOARD & FILTERS
-========================================= */
-
 function setDashboardFilter(filter) {
     dashboardFilter = filter;
-    
     const buttons = document.querySelectorAll('.stat-card');
     buttons.forEach(btn => btn.classList.remove('active-filter'));
-    
     const activeBtn = document.getElementById('filter-' + filter);
-    if(activeBtn) {
-        activeBtn.classList.add('active-filter');
-    }
-    
+    if(activeBtn) activeBtn.classList.add('active-filter');
     renderDashboard();
 }
 
@@ -628,7 +605,6 @@ function renderDashboard() {
     }
 
     box.innerHTML = "";
-
     if (!list.length) {
         box.innerHTML = `
             <div class="empty">
@@ -652,7 +628,7 @@ function setupDashboardSearch() {
 }
 
 /* =========================================
-   MODAL & CLOSE OUTER
+   MODAL DIALOG
 ========================================= */
 
 function openModal(id) {
@@ -754,186 +730,24 @@ function renderModalView(item) {
 }
 
 /* =========================================
-   EDIT REPORT
-========================================= */
-
-function editItem(id) {
-    const session = getSession();
-    const item = items.find(x => x.id === id);
-
-    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
-        toast("You can only edit your own report.");
-        return;
-    }
-
-    const box = document.getElementById("modal-box");
-    if (!box) return;
-
-    box.innerHTML = `
-        <div class="edit-box">
-            <button class="edit-close" onclick="closeModal()">×</button>
-            <h2>Edit Report</h2>
-            <div class="edit-field">
-                <label>Item Name</label>
-                <input id="edit-title" class="input" value="${esc(item.title)}">
-            </div>
-            <div class="edit-field">
-                <label>Category</label>
-                <select id="edit-category" class="input">
-                    <option>Phone</option>
-                    <option>Wallet</option>
-                    <option>Keys</option>
-                    <option>ID Card</option>
-                    <option>Books</option>
-                    <option>Electronics</option>
-                    <option>Others</option>
-                </select>
-            </div>
-            <div class="edit-field">
-                <label>Date</label>
-                <input id="edit-date" class="input" type="date" value="${esc(item.date)}">
-            </div>
-            <div class="edit-field">
-                <label>Location</label>
-                <input id="edit-location" class="input" value="${esc(item.location)}">
-            </div>
-            <div class="edit-field">
-                <label>Contact Info</label>
-                <input id="edit-contact" class="input" value="${esc(item.contactInfo || "")}">
-            </div>
-            <div class="edit-field">
-                <label>Description</label>
-                <textarea id="edit-description" class="input">${esc(item.description)}</textarea>
-            </div>
-            <label class="edit-photo-btn" for="edit-photo">📷 Change Photo</label>
-            <input id="edit-photo" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewEditPhoto(this)" hidden>
-            <div id="edit-photo-preview" class="edit-photo-preview">
-                ${item.photo ? `<img src="${esc(item.photo)}">` : ""}
-            </div>
-            <button class="primary-btn" onclick="saveEdit('${item.id}')">✓ Save Changes</button>
-        </div>
-    `;
-
-    const category = document.getElementById("edit-category");
-    if (category) category.value = item.category;
-
-    const modal = document.getElementById("item-modal");
-    if (modal) modal.classList.add("show");
-}
-
-function previewEditPhoto(input) {
-    const box = document.getElementById("edit-photo-preview");
-    if (!input?.files?.[0]) return;
-    const file = input.files[0];
-    if (file.size > 5 * 1024 * 1024) {
-        toast("Photo must be smaller than 5MB.");
-        input.value = "";
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = event => {
-        if (box) box.innerHTML = `<img src="${event.target.result}">`;
-    };
-    reader.readAsDataURL(file);
-}
-
-function saveEdit(id) {
-    const session = getSession();
-    const index = items.findIndex(x => x.id === id);
-
-    if (!session || session.role === "guest" || index === -1 || items[index].ownerId !== session.id) {
-        toast("You cannot edit this report.");
-        return;
-    }
-
-    const title = document.getElementById("edit-title")?.value.trim();
-    const category = document.getElementById("edit-category")?.value;
-    const date = document.getElementById("edit-date")?.value;
-    const locationValue = document.getElementById("edit-location")?.value.trim();
-    const contactInfo = document.getElementById("edit-contact")?.value.trim();
-    const description = document.getElementById("edit-description")?.value.trim();
-
-    if (!title || !category || !date || !locationValue || !contactInfo || !description) {
-        toast("Please fill all fields.");
-        return;
-    }
-
-    function finish(photoData) {
-        items[index].title = title;
-        items[index].category = category;
-        items[index].date = date;
-        items[index].location = locationValue;
-        items[index].contactInfo = contactInfo;
-        items[index].description = description;
-        if (photoData !== undefined) items[index].photo = photoData;
-        save();
-        closeModal();
-        toast("Report updated successfully.");
-        renderDashboard();
-        if (location.pathname.endsWith("account.html")) initAccount();
-    }
-
-    const input = document.getElementById("edit-photo");
-    if (input?.files?.[0]) {
-        const reader = new FileReader();
-        reader.onload = event => finish(event.target.result);
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        finish();
-    }
-}
-
-function markRecovered(id) {
-    const session = getSession();
-    const item = items.find(x => x.id === id);
-    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
-        toast("You cannot manage this report.");
-        return;
-    }
-    item.recovered = true;
-    save();
-    closeModal();
-    toast("Report marked as recovered.");
-    renderDashboard();
-    if (location.pathname.endsWith("account.html")) initAccount();
-}
-
-function deleteItem(id) {
-    const session = getSession();
-    const item = items.find(x => x.id === id);
-    if (!session || session.role === "guest" || !item || item.ownerId !== session.id) {
-        toast("You cannot delete this report.");
-        return;
-    }
-    if (!confirm("Delete this report?")) return;
-    items = items.filter(x => x.id !== id);
-    save();
-    closeModal();
-    toast("Report deleted.");
-    renderDashboard();
-    if (location.pathname.endsWith("account.html")) initAccount();
-}
-
-/* =========================================
-   PAGE INITIALIZE
+   PAGE INITIALIZATION & AUTH GUARD
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Session မရှိသေးပါက Default Guest Session ကို သတ်မှတ်ပေးပါမည်
+    const session = ensureGuestSession();
     initProfile();
+
     const page = location.pathname.split("/").pop();
 
-    if (page === "" || page === "index.html") {
-        setupDashboardSearch();
-        setDashboardFilter(dashboardFilter);
-    }
-
+    // 💡 အဓိက လိုအပ်ချက်- Report Item စာမျက်နှာသို့ Guest အနေဖြင့် ဝင်ရောက်လာပါက Login Page သို့ တိုက်ရိုက် လမ်းကြောင်းလွှဲပါမည်
     if (page === "report.html") {
-        const session = getSession();
-        if (session?.role === "guest") {
-            const warning = document.getElementById("guest-report-warning");
-            if (warning) warning.style.display = "flex";
+        if (!session || session.role === "guest") {
+            // မူလသွားလိုသော report.html link ကိုပါ redirect query အဖြစ် သိမ်းထားပေးပါမည်
+            location.href = "login.html?redirect=report.html";
+            return;
         }
-        
+
         setType(curType);
 
         const date = document.getElementById("item-date");
@@ -945,6 +759,11 @@ document.addEventListener("DOMContentLoaded", () => {
             description.addEventListener("input", updateDescriptionCount);
             updateDescriptionCount();
         }
+    }
+
+    if (page === "" || page === "index.html") {
+        setupDashboardSearch();
+        setDashboardFilter(dashboardFilter);
     }
 
     if (page === "account.html") {
