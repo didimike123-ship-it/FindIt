@@ -154,7 +154,7 @@ button {
 }
 
 /* =========================================
-   MAIN
+   MAIN & TOP BAR
 ========================================= */
 
 .main {
@@ -162,10 +162,6 @@ button {
     margin-left: 277px;
     padding: 16px;
 }
-
-/* =========================================
-   TOP BAR
-========================================= */
 
 .topbar {
     height: 76px;
@@ -188,7 +184,7 @@ button {
 }
 
 /* =========================================
-   PROFILE
+   PROFILE MENU
 ========================================= */
 
 .profile-wrap {
@@ -345,7 +341,7 @@ button {
 }
 
 /* =========================================
-   STATS (DASHBOARD - DESKTOP)
+   STATS (DASHBOARD)
 ========================================= */
 
 .stats {
@@ -437,7 +433,7 @@ button {
 }
 
 /* =========================================
-   SECTION HEAD & FILTERS
+   FILTERS & REPORT GRID
 ========================================= */
 
 .section-head {
@@ -490,10 +486,6 @@ button {
     font-size: 13px;
 }
 
-/* =========================================
-   REPORT GRID & CARDS
-========================================= */
-
 .report-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -520,7 +512,6 @@ button {
 .report-card-media {
     position: relative;
     width: 100%;
-    height: auto;
     min-height: 180px;
     background: #eef2fb;
     overflow: hidden;
@@ -618,20 +609,6 @@ button {
     border-top: 1px dashed #e3e7f0;
 }
 
-.report-card-meta span,
-.report-card-footer span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* =========================================
-   EMPTY STATE
-========================================= */
-
 .empty {
     grid-column: 1 / -1;
     padding: 45px 20px;
@@ -652,25 +629,83 @@ button {
 }
 
 /* =========================================
-   REPORT FORM PAGE
+   GUEST WARNING BANNER & FORM STYLES
 ========================================= */
 
-.warning {
-    margin-bottom: 16px;
-    padding: 13px 20px;
+.warning-banner {
     display: flex;
     align-items: center;
-    gap: 13px;
-    border: 1px solid #f0dca9;
-    border-radius: 13px;
-    background: #fff8e8;
-    color: #73521e;
-    font-size: 14px;
+    gap: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    background: #fff8eb;
+    border: 1.5px solid #fed7aa;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(234, 138, 28, 0.08);
 }
 
-.warning p {
-    margin: 3px 0 0;
-    font-size: 12px;
+.warning-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.warning-text {
+    flex: 1;
+}
+
+.warning-text strong {
+    display: block;
+    color: #9a3412;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.warning-text p {
+    margin: 0;
+    color: #c2410c;
+    font-size: 13px;
+}
+
+.warning-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-warn-primary {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #ea580c;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-warn-primary:hover {
+    background: #c2410c;
+}
+
+.btn-warn-secondary {
+    padding: 9px 16px;
+    border: 1.5px solid #ea580c;
+    border-radius: 8px;
+    background: #fff;
+    color: #ea580c;
+    font-weight: 700;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-warn-secondary:hover {
+    background: #fff7ed;
+}
+
+/* Guest ဖြစ်ပါက Form ကို Disable လုပ်ထားမည့် Style */
+.form-card.guest-disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
 }
 
 .form-card {
@@ -742,7 +777,6 @@ button {
     position: relative;
 }
 
-/* ထင်ရှားသော INPUT ICONS */
 .field-icon {
     position: absolute;
     left: 14px;
@@ -905,9 +939,9 @@ button {
     font-weight: 800;
 }
 
-/* =======================================================
+/* =========================================
    DETAIL MODAL & ACTION BUTTONS
-======================================================= */
+========================================= */
 
 .modal {
     position: fixed;
@@ -1179,31 +1213,6 @@ button {
     font-size: 13px;
 }
 
-.account-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.small-primary,
-.small-danger {
-    padding: 10px 15px;
-    border: 0;
-    border-radius: 9px;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 800;
-}
-
-.small-primary {
-    color: #fff;
-    background: var(--blue);
-}
-
-.small-danger {
-    color: #e54855;
-    background: #fff0f2;
-}
-
 .account-stats {
     margin-bottom: 24px;
     display: grid;
@@ -1294,23 +1303,8 @@ button {
     border-bottom: 2px solid var(--blue);
 }
 
-.auth-input {
-    width: 100%;
-    height: 48px;
-    padding: 0 12px;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    outline: none;
-    font-size: 13px;
-    color: var(--text);
-}
-
 .password-wrap {
     position: relative;
-}
-
-.password-wrap .auth-input {
-    padding-right: 48px;
 }
 
 .password-wrap button {
@@ -1401,7 +1395,7 @@ button {
 }
 
 /* =========================================
-   RESPONSIVE (TABLET: max-width 850px)
+   RESPONSIVE DESIGN
 ========================================= */
 
 @media(max-width: 900px) {
@@ -1475,11 +1469,21 @@ button {
     }
 }
 
-/* =========================================
-   RESPONSIVE (PHONE: max-width 650px)
-========================================= */
-
 @media(max-width: 650px) {
+    .warning-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .warning-actions {
+        width: 100%;
+    }
+
+    .btn-warn-primary, .btn-warn-secondary {
+        flex: 1;
+    }
+
     .modal {
         padding: 12px;
     }
@@ -1521,14 +1525,11 @@ button {
         font-size: 50px;
     }
 
-    /* 1 ROW, 4 COLUMNS: MOBILE STATS GRID */
     .stats {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 6px;
         margin: 18px 0;
-        padding: 0;
-        overflow: visible;
     }
 
     .stat-card {
@@ -1540,22 +1541,11 @@ button {
         text-align: center;
         gap: 4px;
         border-radius: 10px;
-        transform: none !important;
-    }
-
-    .stat-card:hover {
-        transform: none !important;
-    }
-
-    .stat-card.active-filter {
-        transform: none !important;
-        border-width: 1.5px;
     }
 
     .stat-icon {
         width: 30px;
         height: 30px;
-        margin: 0;
     }
 
     .stat-icon svg {
@@ -1567,35 +1557,20 @@ button {
         display: none;
     }
 
-    .stat-card div:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .stat-card span {
         font-size: 9px;
-        line-height: 1.1;
-        white-space: nowrap;
-        color: var(--muted);
-        font-weight: 700;
-        margin-top: 2px;
     }
 
     .stat-card strong {
         font-size: 16px;
-        margin-top: 2px;
-        line-height: 1;
     }
 
     .section-head {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
-        margin-top: 20px;
     }
 
-    /* Search Bar & Categories on ONE ROW */
     .filters {
         flex-direction: row;
         gap: 8px;
@@ -1610,14 +1585,11 @@ button {
 
     .filters select {
         width: 125px;
-        min-width: 0;
-        flex-shrink: 0;
         height: 42px;
         padding: 0 8px;
         font-size: 11px;
     }
 
-    /* Single column cards on phone */
     .report-grid {
         grid-template-columns: 1fr;
     }
@@ -1645,34 +1617,19 @@ button {
         height: 48px;
     }
 
-    .account-head {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    /* My Account Stats 3-in-a-row on Phone */
     .account-stats {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
-        margin-bottom: 20px;
     }
 
     .account-stats > div {
         padding: 10px 5px;
         flex-direction: column;
-        justify-content: center;
         text-align: center;
-        gap: 5px;
         font-size: 9px;
     }
 
-    .account-stats > div span {
-        margin: 0;
-    }
-
     .account-stats strong {
-        margin-left: 0;
         font-size: 18px;
     }
 
