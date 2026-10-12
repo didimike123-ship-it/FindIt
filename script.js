@@ -1,5 +1,5 @@
 /* =========================================
-   FINDIT - SHARED JAVASCRIPT
+   LOST AND FOUND MANAGEMENT SYSTEM - SCRIPT
 ========================================= */
 
 const ICONS = {
@@ -47,7 +47,6 @@ function setSession(session) {
     localStorage.setItem("findit2_session", JSON.stringify(session));
 }
 
-// Session မရှိပါက Guest အဖြစ် အမြဲတမ်း Default သတ်မှတ်ပေးမည်
 function ensureGuestSession() {
     let session = getSession();
     if (!session) {
@@ -120,31 +119,38 @@ function togglePw(inputId, btn) {
 }
 
 /* =========================================
-   PROFILE DROPDOWN
+   PROFILE & TOP BAR (GUEST -> LOGIN BUTTON)
 ========================================= */
 
 function initProfile() {
     const session = ensureGuestSession();
-    const name = document.getElementById("top-name");
-    const avatar = document.getElementById("top-avatar");
-    const menu = document.getElementById("profile-menu");
+    const profileWrap = document.getElementById("profile-wrap-container");
+    if (!profileWrap) return;
 
-    if (name) name.textContent = session.name;
-    if (avatar) avatar.textContent = initials(session.name);
-
-    if (menu) {
-        if (session.role === "guest") {
-            menu.innerHTML = `
-                <button type="button" onclick="location.href='login.html'"><span>🔑</span> Sign In</button>
-                <button type="button" onclick="location.href='login.html?add=1'"><span>＋</span> Sign Up</button>
-            `;
-        } else {
-            menu.innerHTML = `
+    // အကယ်၍ Guest ဖြစ်နေပါက Login ခလုတ်ကိုသာ ပြသမည်
+    if (session.role === "guest") {
+        profileWrap.innerHTML = `
+            <button type="button" class="topbar-login-btn" onclick="location.href='login.html'">
+                <span>🔑</span> Login
+            </button>
+        `;
+    } else {
+        // Login ဝင်ထားပါက User Profile dropdown ကို ပုံမှန်အတိုင်း ပြသမည်
+        profileWrap.innerHTML = `
+            <button type="button" class="profile-btn" onclick="toggleProfileMenu()">
+                <div class="avatar" id="top-avatar">${initials(session.name)}</div>
+                <div class="user-info">
+                    <small>Welcome,</small>
+                    <strong id="top-name">${esc(session.name)}</strong>
+                </div>
+                <span class="user-arrow">⌄</span>
+            </button>
+            <div class="profile-menu" id="profile-menu">
                 <button type="button" onclick="addAccount()"><span>＋</span> Add Account</button>
                 <div class="profile-divider"></div>
                 <button type="button" class="logout-menu" onclick="logout()"><span>↪</span> Sign Out</button>
-            `;
-        }
+            </div>
+        `;
     }
 }
 
@@ -301,7 +307,7 @@ function guestMode() {
 }
 
 /* =========================================
-   REPORT TYPE & MEDIA HANDLING
+   REPORT TYPE & PHOTO PREVIEWS
 ========================================= */
 
 function setType(type) {
@@ -888,11 +894,10 @@ function deleteItem(id) {
 }
 
 /* =========================================
-   INITIALIZATION (LOGIN REDIRECT လုံးဝမလုပ်ပါ)
+   INITIALIZATION
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // ဝင်ရောက်လာသည်နှင့် အမြဲတမ်း Guest အဖြစ် အရင် သတ်မှတ်ပေးမည်
     const session = ensureGuestSession();
     initProfile();
 
@@ -909,7 +914,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const warning = document.getElementById("guest-report-warning");
         const formCard = document.getElementById("report-form-card");
 
-        // Guest ဖြစ်ပါက Login သို့ မပြောင်းဘဲ Warning Banner ကိုသာ ပြသပြီး Form ကို Disable လုပ်မည်
         if (session.role === "guest") {
             if (warning) warning.style.display = "flex";
             if (formCard) formCard.classList.add("guest-disabled");
