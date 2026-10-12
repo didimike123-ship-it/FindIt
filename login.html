@@ -10,7 +10,7 @@
 <body class="auth-page">
 
     <div class="auth-card">
-        <!-- ================= BRAND LOGO (MATCHED WITH SIDEBAR) ================= -->
+        <!-- ================= BRAND LOGO ================= -->
         <div class="brand auth-logo">
             <div class="brand-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,7 +193,6 @@
 
     <script src="script.js"></script>
     <script>
-        // Check URL parameter to switch to Signup if directed via Add Account
         const params = new URLSearchParams(window.location.search);
         if (params.get("add") === "1") {
             setAuthTab("signup");
